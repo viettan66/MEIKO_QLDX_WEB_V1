@@ -1,0 +1,9 @@
+<div class="row no-gutters">
+    <div class="col">
+        <app-tab classs="bg-light px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab>
+        <app-setting-diadiem-danhsach  *ngIf="tab==0"></app-setting-diadiem-danhsach>
+        <app-setting-diadiem-tuyenxe  *ngIf="tab==1"></app-setting-diadiem-tuyenxe>
+        <app-maps  *ngIf="tab==2"></app-maps>
+    </div>
+    
+</div>

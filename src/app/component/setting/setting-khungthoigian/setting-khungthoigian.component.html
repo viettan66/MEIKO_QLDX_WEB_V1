@@ -1,0 +1,97 @@
+<div class="card">
+    <div class="card-header p-1">
+      <div class="row no-gutters">
+          <div class="col">KHUNG GIỜ</div>
+          <div class="col-auto">
+              <button class="btn btn-sm btn-primary ml-1" (click)="themmoikhunggio()"><i class="far fa-plus"></i></button>
+              <button class="btn btn-sm btn-primary ml-1" (click)="xoakhunggio()"><i class="fad fa-trash"></i></button>
+          </div>
+      </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-sm table-hover table-bordered">
+            <thead>
+                <tr  class="table-info">
+                    <td style="width: 20px;"><app-item-checkall [listdata]="listkhunggio"></app-item-checkall></td>
+                    <td style=" width: 30px;">#</td>
+                    <td>Tên khung giờ</td>
+                    <td>Ghi chú</td>
+                    <td>Time MIN</td>
+                    <td>Time MAX</td>
+                    <td>Trạng thái</td>
+                    <td style="width: 20px;"><i class="fad fa-list"></i> </td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listkhunggio;let i=index">
+                    <tr (click)="item.check=!item.check" style="cursor: pointer;">
+                        <td style="width: 20px;"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                        <td style=" width: 30px;">{{i+1}}</td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.tenKhungGio" class="max"><span *ngIf="!item.edit">{{item.tenKhungGio}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.ghiChu" class="max"><span *ngIf="!item.edit">{{item.ghiChu}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.timeMin" class="max"><span *ngIf="!item.edit">{{item.timeMin}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.timeMax" class="max"><span *ngIf="!item.edit">{{item.timeMax}}</span></td>
+                        <td>
+                            <select (click)="$event.stopPropagation()" class="max" *ngIf="item.edit" [(ngModel)]="item.trangThai">
+                                <option value="">Chọn</option>
+                                <option value="true">Kích hoạt</option>
+                                <option value="false">Tắt</option>
+                            </select>
+                            <span *ngIf="!item.edit">{{item.trangThai?"Kích hoạt":"Tắt"}}</span>
+                        </td>
+                        <td><i style="cursor: pointer;" class="fad {{item.edit?'fa-save':'fa-edit'}}" (click)="$event.stopPropagation();suakhunggio(item)"></i></td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>    
+    </div>
+  </div>
+  
+  <div class="modal fade " id="themkhunggiomodal" role="dialog" >
+	<div class="modal-dialog   modal-500" >
+		<div class="modal-content " >
+			<div class="modal-header">
+				<h5 class="modal-title">THÊM MỚI MỘT ĐỊA DANH</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body ">
+                <TABLE class="table table-sm table-bodered">
+                    <tbody>
+                        <tr>
+                            <td>Tên khung giờ</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.tenKhungGio" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Time MIN</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.timeMin" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Time MAX</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.timeMax" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Ghi chú</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.ghiChu" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Trạng thái</td>
+                            <td><select [(ngModel)]="newkhunggio.trangThai" class="form-control">\
+                                <option value="">Chọn</option>
+                                <option value="true">Kích hoạt</option>
+                                <option value="false">Tắt</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button class="btn btn-sm btn-primary float-right mr-1" title="Lưu lại" (click)="luudiadanhmoi()"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-primary float-right mr-1" title="Làm lại" (click)="rediadanhmoi()"><i class="fa fa-sync"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </TABLE>
+                
+			</div>
+		</div>
+	</div>
+</div>

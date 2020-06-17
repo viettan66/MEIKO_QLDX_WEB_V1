@@ -1,0 +1,7 @@
+<div class="row no-gutters h-100">
+    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab" [tab]="tab" (tab)="gettab($event)"></app-menu>
+    <div class="col p-1">
+        <app-thongkenhanvientheotuyenxe *ngIf="tab==0"></app-thongkenhanvientheotuyenxe>
+        <app-danhsachnhanviendixe *ngIf="tab==1"></app-danhsachnhanviendixe>
+    </div>
+</div>

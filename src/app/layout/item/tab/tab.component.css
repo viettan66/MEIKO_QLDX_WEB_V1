@@ -1,0 +1,14 @@
+.tabrow{
+    height: 30px;
+    margin-top: 5px;
+    /* margin-bottom: 5px; */
+    border-bottom: solid 2px rgb(80, 80, 80);
+}
+.tabrow span {border-right: 1px solid rgb(80, 80, 80);
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    margin-top: 2px;
+    border-bottom: solid 2px rgb(80, 80, 80);
+}
+.tabrow span:first-child {border-left: 1px solid rgb(78, 78, 78);margin-left: 30px;}
+.kkkk{border-bottom: 0 !important;border: 2px  solid rgb(80, 80, 80) ;}

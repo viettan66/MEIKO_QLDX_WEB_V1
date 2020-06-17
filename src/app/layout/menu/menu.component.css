@@ -1,0 +1,8 @@
+
+/* .gh{width: auto;position: relative;background-color: gray;height: 100%;left: 0;top: 0 ;left: 0;top: 0 ;} */
+.gh li{transition:  0.2s;cursor: pointer;width: 260px;}
+.gh ul{transition:  0.3s;width: 35px ;overflow: hidden;}
+.gh span{opacity: 0;transition: 0.5s;;}
+.gh:hover ul{left: 0;top: 0 ;width: 240px;}
+.gh:hover ul span{display: unset;opacity: 1;}
+

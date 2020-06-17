@@ -1,0 +1,7 @@
+.muiten{
+ border: 50% 100% 50% 50% ;
+}
+
+.ggg tr:first-child{
+border: none !important;
+}

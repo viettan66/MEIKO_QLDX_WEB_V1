@@ -1,0 +1,163 @@
+<app-header></app-header>
+<div class="row no-gutters h-100" style="margin-top: 40px;">
+    <div class="col">
+        
+    <div class="card m-1">
+        <div class="card-header p-1">
+          <div class="row no-gutters">
+              <div class="col">ĐỊA ĐIỂM</div>
+              <div class="col-auto">
+                <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+                <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
+    
+              </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+            <table class="table table-sm table-hover table-bordered" style="font-size: 12px;">
+                <thead>
+                    <tr  class="table-info">
+                        <td style=" width: 30px;">#</td>
+                        <td>Tuyến</td>
+                        <td>Điểm đón</td>
+                        <td>Ghi chú</td>
+                        <td>Giờ đón</td>
+                        <td>Địa danh</td>
+                        <td style="width: 20px;"><i class="fad fa-list"></i> </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of listdata;let i=index">
+                        <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                        <tr >
+                            <td [rowSpan]="item.DX0010D.length" style=" width: 30px;">{{i+1}}</td>
+                            <td [rowSpan]="item.DX0010D.length">{{item.tenTuyenXe}}</td>
+                            <ng-container *ngIf="item.DX0010D.length>0">
+                                <td>{{item.DX0010D[0].DX0011.tenDiemDon}}</td>
+                                <td>{{item.DX0010D[0].DX0011.ghiChu}}</td>
+                                <td>{{item.DX0010D[0].DX0011.gioDon}}</td>
+                                <td>{{item.DX0010D[0].DX0011.DX0014!=null?item.DX0010D[0].DX0011.DX0014.tenDiaDanh:""}}</td>
+                                <td><i style="cursor: pointer;" class="fad fa-eye" (click)="showtuyenduong(item,item.DX0010D[0].DX0011)"></i></td>
+                            </ng-container>
+                        </tr>  
+                        <ng-container *ngFor="let item2 of item.DX0010D;let i=index">
+                            <ng-container *ngIf="i>0">
+                                <tr>
+                                    <td>{{item2.DX0011.tenDiemDon}}</td>
+                                    <td>{{item2.DX0011.ghiChu}}</td>
+                                    <td>{{item2.DX0011.gioDon}}</td>
+                                    <td>{{item2.DX0011.DX0014!=null?item2.DX0011.DX0014.tenDiaDanh:""}}</td>
+                                    <td><i style="cursor: pointer;" class="fad fa-eye" (click)="showtuyenduong(item,item2.DX0011)"></i></td>
+                                </tr>
+                            </ng-container>
+                            
+                            </ng-container>
+                    </ng-container>
+                </ng-container>
+                </tbody>
+            </table>    
+        </div>
+      </div>
+    </div>
+    
+</div>
+<div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog  modal-1360" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">THÔNG TIN TUYẾN ĐƯỜNG</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row  no-gutters p-2" style="position: absolute;z-index: 999;">
+                    <button *ngIf="showdiem" type="button" class="btn btn-primary btn-sm mr-2" (click)="xemtuyen()">Xem cả tuyến đường</button>
+                    <button *ngIf="!showdiem"  type="button" class="btn btn-primary btn-sm mr-2" (click)="xemdiem()">Xem Điểm đã chọn</button>
+                    <span *ngIf="!showdiem" class="btn btn-sm btn-primary mr-2">{{calcu}} Km</span>
+                </div>
+                <div class="row no-gutters">
+                    
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" disableDefaultUI="false" zoomControl="true"
+                    mapTypeId="roadmap">
+                    <agm-marker *ngFor="let m of diemdon; let i = index"  [latitude]="m.lat"
+                        [longitude]="m.lng" [label]="m.tenDiemDon"  >
+                
+                        <agm-info-window>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Điểm</td>
+                                        <td>{{m.tenDiemDon}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tuyến</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giờ đón</td>
+                                        <td>{{m.gioDon}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ghi chú</td>
+                                        <td>{{m.ghiChu}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </agm-info-window>
+                
+                    </agm-marker>
+                    <ng-container *ngIf="thistuyenduong!=null && thistuyenduong.DX0010D!=null && thistuyenduong.DX0010D.length>1&& !showdiem">
+                        <agm-direction [renderOptions]="renderOptions"  [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
+                        [waypoints]="thistuyenduong.waypoints"
+                           >
+                          <button>dfkd</button>
+                        </agm-direction>
+                      </ng-container>
+                </agm-map>
+                </div>
+      
+      <!-- [style.height.px]="500"
+      <agm-marker *ngFor="let m of diemdon; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat"
+        [longitude]="m.lng" [label]="m.tenDiemDon" [markerDraggable]="true" (dragEnd)="markerDragEnd(m, $event)">
+
+        <agm-info-window>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>Điểm</td><td><input type="text" [(ngModel)]="m.tenDiemDon"></td>
+              </tr>
+              <tr>
+                <td>Tuyến</td><td></td>
+              </tr>
+              <tr>
+                <td>Ghi chú</td><td><textarea [(ngModel)]="m.ghiChu"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+        </agm-info-window>
+
+      </agm-marker>
+      <ng-container *ngIf="thistuyenduong!=null && thistuyenduong.DX0010D!=null && thistuyenduong.DX0010D.length>1">
+        <agm-direction [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
+        [waypoints]="thistuyenduong.waypoints"
+           >
+          <button>dfkd</button>
+        </agm-direction>
+      </ng-container> -->
+
+      <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" 
+      [radius]="5000"
+      [fillColor]="'red'"
+      [circleDraggable]="true"
+      [editable]="true">
+  </agm-circle> -->
+
+            </div>
+            <div class="modal-footer">
+                Footer
+            </div>
+        </div>
+    </div>
+</div>

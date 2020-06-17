@@ -1,0 +1,85 @@
+<div class="card m-1">
+    <div class="card-header p-1">
+      <div class="row no-gutters">
+          <div class="col">ĐƠN YÊU CẦU SỬ DỤNG TAXI</div>
+          <div class="col-auto">
+              
+            <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+            <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+            <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
+
+                <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="ngaytao" (change)="show()">
+                    <option value="">ALL</option>
+                    <option value="true">Quá thời gian sử dụng</option>
+                    <option value="false">Chưa quá gian sử dụng</option>
+                </select>
+                <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="trangthai" (change)="show()">
+                    <option value="all">ALL</option>
+                    <option value="1">Chưa duyệt</option>
+                    <option value="2">Đã duyệt</option>
+                </select>
+                <!-- <button class="btn btn-sm btn-secondary ml-1" (click)="them()"><i class="far fa-plus"></i></button> -->
+                <button class="btn btn-sm btn-secondary ml-1" (click)="duyet()"><i class="fad fa-check"></i></button>
+                <button class="btn btn-sm btn-secondary ml-1" (click)="huy()"><i class="fad fa-times"></i></button>
+                <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh" tableName="Danh sách yêu cầu sử dụng xe taxi" hide="true"></app-button-download>
+                <button class="btn btn-sm btn-secondary ml-1" (click)="xoa()"><i class="fad fa-trash"></i></button>
+          </div>
+      </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-sm table-hover table-bordered" style="font-size: 12px;" id="gghjkhggh">
+            <thead style="text-align: center;">
+                <tr  class="table-info">
+                    <td style="width: 20px;"><app-item-checkall [listdata]="listdata"></app-item-checkall></td>
+                    <td style=" width: 30px;">#</td>
+                    <td>Họ tên</td>
+                    <td>ID</td>
+                    <td>Cấp bậc</td>
+                    <td>Bộ phận</td>
+                    <td>Lý do</td>
+                    <td>Di động / Ext</td>
+                    <td>Tuyến taxi</td>
+                    <td>Điểm đến</td>
+                    <td>Khung giờ</td>
+                    <td style=" width:110px">Thời gian YC</td>
+                    <td style=" width:30px"><i class="fad fa-question-circle"></i></td>
+                    <td style="width: 20px;"><i class="fad fa-list"></i> </td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listdata;let i=index">
+                    <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                    <tr (click)="item.check=!item.check" >
+                        <td style="width: 20px;"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                        <td style=" width: 30px;">{{i+1}}</td>
+                        <td>{{item.T001C}}</td>
+                        <td>{{item.T002C}}</td>
+                        <td>{{item.T005C}}</td>
+                        <td>{{item.T006C}}</td>
+                        <td>{{item.T008C}}</td>
+                        <td>{{item.T004C}}&nbsp;{{item.T003C}}</td>
+                        <td >{{item.DX0010!=null?item.DX0010.tenTuyenXe:''}}</td>
+                        <td>{{item.DX0011!=null?item.DX0011.tenDiemDon:''}}</td>
+                        <td>{{item.DX0070.length!=0?item.DX0070[0].tenKhungGio:''}}</td>
+                        <td>{{item.ngayTao|date:'dd/MM/yyyy HH:mm'}}</td>
+                        <td style="text-align: center;">
+
+                            <!-- <i *ngIf="item.trangThai==1" class="fad fa-sync fa-spin"></i>
+                            <i *ngIf="item.trangThai==2" class="fad fa-check"></i>
+                            <i *ngIf="item.trangThai==3" class="fad fa-taxi"></i> -->
+
+                            <i class="fad {{item.trangThai==1?'fa-sync fa-spin':item.trangThai==2?'fa-check':'fa-taxi'}} "></i>
+
+
+                            <span style="display: none;">{{item.trangThai==1?"Chưa duyệt":item.trangThai==2?"Đã duyệt":"Đã sắp xe"}}</span>
+                        </td>
+                        <td><i style="cursor: pointer;" class="fad fa-eye"  (click)="$event.stopPropagation();"></i></td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+            </tbody>
+        </table>    
+    </div>
+  </div>
+
+ 

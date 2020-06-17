@@ -1,0 +1,9 @@
+<div class="col col-auto bg-dark gh no-gutters h-100 bg-dark" style="padding:10px 0 0 0;">
+    <ul class="list-group list-group-flush h-100 bg-dark no-gutters" id="dfdfdfdf">
+        <li class="list-group-item px-2  menuclick {{tab==i?'bg-light text-dark radiuss ':' bg-dark text-white '}}" (click)="tabchange(i)"
+            *ngFor="let element of listmenu;let i=index">
+                <i class="{{element.classs}}"></i><span>&nbsp;&nbsp;{{element.label}}</span>
+           
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,77 @@
+<div class="row no-gutters p-2">
+    <div class="col">
+<div class="card">
+    <div class="card-header p-1">
+        <div class="row no-gutters">
+            <div class="col">DANH SÁCH ĐƠN ĐĂNG KÝ</div>
+            <div class="col-auto">
+                <app-button-count [listdata]="listdon" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+                <app-button-preview classs="btn btn-sm" [listdata]="listdon" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listdon" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
+                <select (change)="filter()" [(ngModel)]="filt" class="btn btn-sm btn-secondary ml-1">
+                    <option value="all">ALL</option>
+                    <option value="1">Chưa duyệt</option>
+                    <option value="2">Đã duyệt</option>
+                </select>
+                <button (click)="pheduyetdondangky()" title="Phê duyệt cho nhân viên đi xe" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-award"></i></button>
+                <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh" tableName="Danh sách người đi xe" hide="true"></app-button-download>
+                
+                <button (click)="xoadondangky()" title="Xóa bỏ yêu cầu" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-trash"></i></button>
+                <!-- <button class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i></button> -->
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-bordered table-hover  table-striped table-sm" id="gghjkhggh" style="vertical-align: middle;font-size: 12px;">
+            <thead style="text-align: center;">
+                <tr>
+                    <td  style="width: 20px;"><app-item-checkall [listdata]="listdon"></app-item-checkall></td>
+                    <td  style="width: 30px;">#</td>
+                    <td >Thời gian sử dụng</td>
+                    <td >Tuyến</td>
+                    <td >Điểm</td>
+                    <td >Mô tả điểm đón</td>
+                    <td >Mã ID</td>
+                    <td >Họ tên</td>
+                    <td >Cấp bậc</td>
+                    <td >Chức vụ</td>
+                    <td>Bộ phận/Công đoạn</td>
+                    <td>địa chỉ mail</td>
+                    <td>Máy lẻ</td>
+                    <td>Di động</td>
+                    <td>Ghi chú</td>
+                    <td style="width: 20px;"><i class="fad fa-question-circle"></i></td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listdon;let i=index">
+                      <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                    <tr (click)="item.check=!item.check">
+                        <td  style="width: 20px;"><input (click)="$event.stopPropagation()" type="checkbox" [(ngModel)]="item.check"></td>
+                        <td  style="width: 30px;">{{i+1}}</td>
+                        <td >{{item.T010C}}</td>
+                        <td >{{item.DX0010!=null?item.DX0010.tenTuyenXe:''}}</td>
+                        <td >{{item.DX0011!=null?item.DX0011.tenDiemDon:''}}</td>
+                        <td >{{item.DX0011!=null?item.DX0011.ghiChu:''}}</td>
+                        <td >{{item.T002C}}</td>
+                        <td >{{item.T001C}}</td>
+                        <td >{{item.T005C}}</td>
+                        <td ></td>
+                        <td >{{item.T006C}}</td>
+                        <td ></td>
+                        <td >{{item.T003C}}</td>
+                        <td >{{item.T004C}}</td>
+                        <td >{{item.T010C}}</td>
+                        <td>
+                                <i *ngIf="item.trangThai==2" class="fad fa-check"></i>
+                                <i *ngIf="item.trangThai==1" class="fad fa-sync fa-spin"></i>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+  </div>

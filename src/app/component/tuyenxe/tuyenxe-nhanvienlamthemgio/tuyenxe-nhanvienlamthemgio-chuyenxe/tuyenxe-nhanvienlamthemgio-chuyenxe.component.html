@@ -1,0 +1,92 @@
+<div class="card m-1">
+    <div class="card-header p-1">
+        <div class="row no-gutters">
+            <div class="col">DANH SÁCH CHUYẾN XE TAXI</div>
+            <div class="col-auto">
+
+                <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)">
+                </app-button-count>
+                <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
+                    (start)="getstart($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
+                    (start)="getstart($event)"></app-button-next>
+                    
+                <input type="date" placeholder="Từ ngày" class="btn btn-sm btn-secondary ml-1" [ngModel]="newdatw|date:'yyyy-MM-dd'" (ngModelChange)="startdate">
+                <input type="date" placeholder="Đến ngày" class="btn btn-sm btn-secondary ml-1"  [ngModel]="newdatw|date:'yyyy-MM-dd'" (ngModelChange)="enddate">
+                <button class="btn btn-sm btn-secondary ml-1" (click)="duyet()"><i class="fad fa-check"></i></button>
+                <button class="btn btn-sm btn-secondary ml-1" (click)="huy()"><i class="fad fa-times"></i></button>
+                <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh"
+                    tableName="Danh sách yêu cầu sử dụng xe taxi" hide="true"></app-button-download>
+                <button class="btn btn-sm btn-secondary ml-1" (click)="xoa()"><i class="fad fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1">
+        <div class="row no-gutters">
+            <div class="col-xl p-1">
+                <table class="table table-sm  table-bordered" style="font-size: 12px;" id="gghjkhggh">
+                    <thead style="text-align: center;">
+                        <tr class="table-info">
+                            <td style="width: 20px;">
+                                <app-item-checkall [listdata]="listdata"></app-item-checkall>
+                            </td>
+                            <td style=" width: 30px;">#</td>
+                            <td>Lộ trình</td>
+                            <td>Khung giờ</td>
+                            <td>Ngày</td>
+                            <td>Họ tên</td>
+                            <td>ID</td>
+                            <td>Bộ phân</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of listdata;let i=index">
+                            <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                                <tr (click)="item.check=!item.check">
+                                    <td style="width: 20px;vertical-align: middle;" [rowSpan]="item.DX0061.length"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                                    <td style=" width: 30px;vertical-align: middle;text-align: center" [rowSpan]="item.DX0061.length">{{i+1}}</td>
+                                    <td style="vertical-align: middle"  [rowSpan]="item.DX0061.length"><b>{{item.ghiChu}}</b></td>
+                                    <td style="vertical-align: middle;text-align: center;"  [rowSpan]="item.DX0061.length">{{item.DX0070!=null?item.DX0070.tenKhungGio:''}}</td>
+                                    <td  style="vertical-align: middle;text-align: center;" [rowSpan]="item.DX0061.length">{{item.thoiGian|date:'dd/MM/yyyy'}}</td>
+                                    <td>{{item.DX0061[0].DX0001.T001C}}</td>
+                                    <td>{{item.DX0061[0].DX0001.T002C}}</td>
+                                    <td>{{item.DX0061[0].DX0001.T006C}}</td>
+                                </tr>
+                                <ng-container *ngFor="let item2 of item.DX0061;let i=index">
+                                    <tr *ngIf="i!=0">
+                                        <td>{{item2.DX0001.T001C}}</td>
+                                        <td>{{item2.DX0001.T002C}}</td>
+                                        <td>{{item2.DX0001.T006C}}</td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- <div class="col-3 p-1">
+                <table class="table table-sm table-bordered" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Tổng nhân viên</th>
+                            <th>Tổng số xe</th>
+                            <th>Tổng số KM</th>
+                            <th>Giá cước</th>
+                            <th>Chi phí ước tính</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>70</td>
+                            <td>18</td>
+                            <td>460 KM</td>
+                            <td>11,000 đ</td>
+                            <td>5,060,000 đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+    </div>
+</div>

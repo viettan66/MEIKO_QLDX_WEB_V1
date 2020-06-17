@@ -1,0 +1,90 @@
+<div class="card">
+    <div class="card-header p-1">
+      <div class="row no-gutters">
+          <div class="col">GOM NHÓM CÁC ĐIỂM CÙNG LỘ TRÌNH TAXI</div>
+          <div class="col-auto">
+              <button class="btn btn-sm btn-primary ml-1" (click)="themmoi()"><i class="far fa-plus"></i></button>
+              <button class="btn btn-sm btn-primary ml-1" (click)="xoatuyenduong()" ><i class="fad fa-trash"></i></button>
+          </div>
+      </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-sm table-hover table-bordered">
+            <thead>
+                <tr  class="table-info">
+                    <td style="width: 20px;"><app-item-checkall [listdata]="listdata"></app-item-checkall></td>
+                    <td style=" width: 30px;">#</td>
+                    <td>Tên lộ trình</td>
+                    <td>Các điểm</td>
+                    <td>Ghi chú</td>
+                    <td>Trạng thái</td>
+                    <td style="width: 20px;"><i class="fad fa-list"></i> </td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listdata;let i=index">
+                    <tr (click)="item.check=!item.check" style="cursor: pointer;">
+                        <td style="width: 20px;"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                        <td style=" width: 30px;">{{i+1}}</td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.tenTuyenXe" class="max"><span *ngIf="!item.edit">{{item.tenTuyenXe}}</span></td>
+                        <td>
+                            <ng-container *ngFor="let item2 of item.DX0010D">
+                                <button (click)="$event.stopPropagation();deletediemdon(item,item2)"  class="btn btn-sm btn-secondary p-0 px-1 mr-1" title="{{item2.DX0011.tenDiemDon}}">{{item2.DX0011.tenDiemDon}}</button>
+                            </ng-container>
+                            <button (click)="$event.stopPropagation();themdiemdon(item)"  class="btn btn-sm btn-primary p-0 px-1 mr-1"><i class="fa fa-plus"></i></button>
+                        </td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.ghiChu" class="max"><span *ngIf="!item.edit">{{item.ghiChu}}</span></td>
+                        <td>
+                            <select (click)="$event.stopPropagation()" class="max" *ngIf="item.edit" [(ngModel)]="item.trangThai">
+                                <option value="">Chọn</option>
+                                <option value="true">Kích hoạt</option>
+                                <option value="false">Tắt</option>
+                            </select>
+                            <span *ngIf="!item.edit">{{item.trangThai?"Kích hoạt":"Tắt"}}</span>
+                        </td>
+                        <td><i style="cursor: pointer;" class="fad {{item.edit?'fa-save':'fa-edit'}}" (click)="$event.stopPropagation();suakhunggio(item)"></i></td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>    
+    </div>
+  </div>
+
+  
+<div class="modal fade " id="themdiemdonmodal" role="dialog" >
+    <div class="modal-dialog   modal-700" >
+        <div class="modal-content " >
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm điểm đón được đi phép di chuyển bằng taxi</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                <table class="table table-sm table-hover" style="font-size: 14px;">
+                    <thead>
+                        <tr>
+                            <th style="width: 20px;"><app-item-checkall [listdata]="listdiemdon"></app-item-checkall></th>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Ghi chú</th>
+                            <th style="text-align: end;">
+                                <button (click)="luudiendon()" class="btn btn-sm btn-primary"><i class="fad fa-save"></i></button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of listdiemdon">
+                            <tr style="cursor: pointer;" (click)="$event.stopPropagation();item.check=!item.check;getlistchose(item)">
+                                <th><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation();getlistchose(item)" ></th>
+                                <td>{{item.maDiemDon}}</td>
+                                <td>{{item.tenDiemDon}}</td>
+                                <td colspan="2">{{item.ghiChu}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

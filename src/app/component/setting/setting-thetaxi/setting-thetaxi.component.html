@@ -1,0 +1,115 @@
+<div class="card">
+    <div class="card-header p-1">
+      <div class="row no-gutters">
+          <div class="col">THẺ TAXI</div>
+          <div class="col-auto">
+              <button class="btn btn-sm btn-primary ml-1" (click)="themmoikhunggio()"><i class="far fa-plus"></i></button>
+              <button class="btn btn-sm btn-primary ml-1" (click)="xoakhunggio()"><i class="fad fa-trash"></i></button>
+          </div>
+      </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-sm table-hover table-bordered">
+            <thead>
+                <tr  class="table-info">
+                    <td style="width: 20px;"><app-item-checkall [listdata]="listkhunggio"></app-item-checkall></td>
+                    <td style=" width: 30px;">#</td>
+                    <td>Mã thẻ taxi</td>
+                    <td>Số thẻ</td>
+                    <td>Loại thẻ</td>
+                    <td>Hãng taxi</td>
+                    <td>Phát hành</td>
+                    <td>Hết hạn</td>
+                    <td>Ghi chú</td>
+                    <td>Trạng thái</td>
+                    <td style="width: 20px;"><i class="fad fa-list"></i> </td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listkhunggio;let i=index">
+                    <tr (click)="item.check=!item.check" style="cursor: pointer;">
+                        <td style="width: 20px;"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                        <td style=" width: 30px;">{{i+1}}</td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.maThe" class="max"><span *ngIf="!item.edit">{{item.maThe}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.soThe" class="max"><span *ngIf="!item.edit">{{item.soThe}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.loaiThe" class="max"><span *ngIf="!item.edit">{{item.loaiThe}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.hangTaxi" class="max"><span *ngIf="!item.edit">{{item.hangTaxi}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="date" (ngModelChange)="item.ngayPhatHanh=$event" [ngModel]="item.ngayPhatHanh|date:'yyyy-MM-dd'" class="max"><span *ngIf="!item.edit">{{item.ngayPhatHanh|date:'dd/MM/yyyy'}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="date" (ngModelChange)="item.ngayHetHan=$event"  [ngModel]="item.ngayHetHan|date:'yyyy-MM-dd'" class="max"><span *ngIf="!item.edit">{{item.ngayHetHan|date:'dd/MM/yyyy'}}</span></td>
+                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.ghiChu" class="max"><span *ngIf="!item.edit">{{item.ghiChu}}</span></td>
+                        <td>
+                            <select (click)="$event.stopPropagation()" class="max" *ngIf="item.edit" [(ngModel)]="item.trangThai">
+                                <option value="">Chọn</option>
+                                <option value="true">Kích hoạt</option>
+                                <option value="false">Tắt</option>
+                            </select>
+                            <span *ngIf="!item.edit">{{item.trangThai?"Kích hoạt":"Tắt"}}</span>
+                        </td>
+                        <td><i style="cursor: pointer;" class="fad {{item.edit?'fa-save':'fa-edit'}}" (click)="$event.stopPropagation();suakhunggio(item)"></i></td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>    
+    </div>
+  </div>
+  
+  <div class="modal fade " id="themkhunggiomodal" role="dialog" >
+	<div class="modal-dialog   modal-lg" >
+		<div class="modal-content " >
+			<div class="modal-header">
+				<h5 class="modal-title">THÊM MỚI MỘT THẺ TAXI</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body ">
+                <TABLE class="table table-sm table-bodered">
+                    <tbody>
+                        <tr>
+                            <td>Mã thẻ taxi</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.maThe" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Soos thẻ</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.soThe" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Loại thẻ</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.loaiThe" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Hãng taxi</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.hangTaxi" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Ngày phát hành</td>
+                            <td><input type="date" [(ngModel)]="newkhunggio.ngayPhatHanh" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Ngày hết hạn</td>
+                            <td><input type="date" [(ngModel)]="newkhunggio.ngayHetHan" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Ghi chú</td>
+                            <td><input type="text" [(ngModel)]="newkhunggio.ghiChu" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Trạng thái</td>
+                            <td><select [(ngModel)]="newkhunggio.trangThai" class="form-control">
+                                <option value="">Chọn</option>
+                                <option value="true">Kích hoạt</option>
+                                <option value="false">Tắt</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button class="btn btn-sm btn-primary float-right mr-1" title="Lưu lại" (click)="luudiadanhmoi()"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-primary float-right mr-1" title="Làm lại" (click)="rediadanhmoi()"><i class="fa fa-sync"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </TABLE>
+                
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+<div class="row no-gutters align-items-center p-0 tabrow {{classs!=null?classs:' bg-dark'}}" >
+    <ng-container *ngFor="let element of listtab;let i=index">
+            <span class="px-3 py-0 btn-secondary h-100  {{tab==i?'bg-light text-dark kkkk':''}}" (click)="tabchange(i)"><i class="{{element.classs!=null?element.classs:'fas fa-bookmark'}}"></i>&nbsp;{{element.label}}</span>
+    </ng-container>
+</div>
