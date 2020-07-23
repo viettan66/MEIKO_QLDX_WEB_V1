@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="card-body p-1">
-        <table class="table table-sm table-hover table-bordered">
+        <table class="table table-sm table-hover table-bordered" style="font-size: 12px;">
             <thead>
                 <tr  class="table-info">
                     <td style="width: 20px;"><app-item-checkall [listdata]="listkhunggio"></app-item-checkall></td>
@@ -21,6 +21,10 @@
                     <td>Phát hành</td>
                     <td>Hết hạn</td>
                     <td>Ghi chú</td>
+                    <td>Người giữ thẻ</td>
+                    <td>Họ tên</td>
+                    <td>Ngày giao</td>
+                    <td>Ngày trả</td>
                     <td>Trạng thái</td>
                     <td style="width: 20px;"><i class="fad fa-list"></i> </td>
                 </tr>
@@ -34,9 +38,13 @@
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.soThe" class="max"><span *ngIf="!item.edit">{{item.soThe}}</span></td>
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.loaiThe" class="max"><span *ngIf="!item.edit">{{item.loaiThe}}</span></td>
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.hangTaxi" class="max"><span *ngIf="!item.edit">{{item.hangTaxi}}</span></td>
-                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="date" (ngModelChange)="item.ngayPhatHanh=$event" [ngModel]="item.ngayPhatHanh|date:'yyyy-MM-dd'" class="max"><span *ngIf="!item.edit">{{item.ngayPhatHanh|date:'dd/MM/yyyy'}}</span></td>
-                        <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="date" (ngModelChange)="item.ngayHetHan=$event"  [ngModel]="item.ngayHetHan|date:'yyyy-MM-dd'" class="max"><span *ngIf="!item.edit">{{item.ngayHetHan|date:'dd/MM/yyyy'}}</span></td>
+                        <td><app-button-datetimepicker  (data)="item.ngayPhatHanh=$event" [data]="item.ngayPhatHanh|date:'yyyy-MM-dd'" [ids]="'fdjdds'" classs="max" [format]="'Y-m-d'" [timepick]="false" *ngIf="item.edit" ></app-button-datetimepicker><span *ngIf="!item.edit">{{item.ngayPhatHanh|date:'dd/MM/yyyy'}}</span></td>
+                        <td><app-button-datetimepicker  (data)="item.ngayHetHan=$event" [data]="item.ngayHetHan|date:'yyyy-MM-dd'" [ids]="'fdjdds45'" classs="max" [format]="'Y-m-d'" [timepick]="false" *ngIf="item.edit" ></app-button-datetimepicker><span *ngIf="!item.edit">{{item.ngayHetHan|date:'dd/MM/yyyy'}}</span></td>
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.ghiChu" class="max"><span *ngIf="!item.edit">{{item.ghiChu}}</span></td>
+                        <td><input list="listnguoidixe" type="text" class="max"(click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.manhansu" (change)="sethoten(item,item.manhansu)" ><span *ngIf="!item.edit">{{item.manhansu}}</span></td>
+                        <td><span>{{item.hoten}}</span></td>
+                        <td><app-button-datetimepicker  (data)="item.ngayGiao=$event" [data]="item.ngayGiao|date:'yyyy-MM-dd'" [ids]="'fdj'" [format]="'Y-m-d'" classs="max" [timepick]="false" *ngIf="item.edit" ></app-button-datetimepicker><span *ngIf="!item.edit">{{item.ngayGiao|date:'dd-MM-yyyy'}}</span></td>
+                        <td><app-button-datetimepicker  (data)="item.ngayTra=$event" [data]="item.ngayTra|date:'yyyy-MM-dd'" [ids]="'fdjf'" [format]="'Y-m-d'" classs="max" [timepick]="false" *ngIf="item.edit" ></app-button-datetimepicker><span *ngIf="!item.edit">{{item.ngayTra|date:'dd-MM-yyyy'}}</span></td>
                         <td>
                             <select (click)="$event.stopPropagation()" class="max" *ngIf="item.edit" [(ngModel)]="item.trangThai">
                                 <option value="">Chọn</option>
@@ -60,7 +68,7 @@
 				<h5 class="modal-title">THÊM MỚI MỘT THẺ TAXI</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<div class="modal-body ">
+			<div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <TABLE class="table table-sm table-bodered">
                     <tbody>
                         <tr>
@@ -113,3 +121,6 @@
 		</div>
 	</div>
 </div>
+<datalist id="listnguoidixe">
+    <option value="{{item.manhansu}}" *ngFor="let item of nguoidixe">{{item.hodem}}</option>
+</datalist>

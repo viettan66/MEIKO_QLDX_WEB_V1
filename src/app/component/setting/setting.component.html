@@ -1,13 +1,15 @@
 <app-header></app-header>
 <div class="row no-gutters h-100" style="margin-top: 40px;">
-    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab" [tab]="tab" (tab)="gettab($event)"></app-menu>
+    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab" ></app-menu>
     <div class="col p-1">
-       <app-setting-diadanh *ngIf="tab==0"></app-setting-diadanh>
+       <!-- <app-setting-diadanh *ngIf="tab==0"></app-setting-diadanh>
        <app-setting-diadiem *ngIf="tab==1"></app-setting-diadiem>
          <app-setting-khungthoigian *ngIf="tab==2"></app-setting-khungthoigian>
          <app-setting-xebus *ngIf="tab==3"></app-setting-xebus>
          <app-setting-lotrinhtaxi *ngIf="tab==4"></app-setting-lotrinhtaxi>
-         <app-setting-thetaxi *ngIf="tab==299"></app-setting-thetaxi>
-         <app-setting-diemtaxi *ngIf="tab==999"></app-setting-diemtaxi>
+         <app-setting-thetaxi *ngIf="tab==5"></app-setting-thetaxi>
+         <app-setting-diemtaxi *ngIf="tab==999"></app-setting-diemtaxi> -->
+         <ng-container *ngComponentOutlet="hhh"></ng-container>
+
     </div>
 </div>

@@ -27,7 +27,7 @@ export class MapsComponent implements OnInit {
   async ngOnInit() {
     this.diemdon=await this.rest.GetDataFromAPI<any>("DX0011/getall/all").toPromise()
     this.tuyenduong=await this.rest.GetDataFromAPI<any>("DX0010/getall/all").toPromise()
-    console.log(this.diemdon)
+    ////console.log(this.diemdon)
     // this.diemdon.map((x,index)=>{
     //   this.direction.push({
     //     origin:x.DX0011[0],
@@ -48,23 +48,23 @@ export class MapsComponent implements OnInit {
     //       },},
     //     renderOptions: { polylineOptions: { strokeColor: this.color[index] } }
     //   })
-    //   console.log(this.direction)
+    //   ////console.log(this.direction)
     // })
   }
   clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`)
+    ////console.log(`clicked the marker: ${label || index}`)
   }
   markerDragEnd(m: marker, $event) {
     m.lat = $event.coords.lat
     m.lng = $event.coords.lng
-    console.log('lat:'+ m.lat+' - lng:'+m.lng)
+    ////console.log('lat:'+ m.lat+' - lng:'+m.lng)
   }
   mapClicked($event) {return false
     // this.waypoints=[]
     if(!confirm(`Bạn có muốn tạo thêm điểm trên bản đồ không?`)){
       return false
     }
-    console.log($event)
+    ////console.log($event)
     this.diemdon.push({
       lat: $event.coords.lat,
       lng: $event.coords.lng,
@@ -75,7 +75,7 @@ export class MapsComponent implements OnInit {
     // this.destination = this.markers[this.markers.length-1]
     // for(let i=1;i<this.markers.length-1;i++)
     //   this.waypoints.push({location: { lat: this.markers[i].lat, lng: this.markers[i].lng }})
-    // console.log(this.calculateDistance(this.origin, this.destination))
+    // ////console.log(this.calculateDistance(this.origin, this.destination))
   }
   markers: marker[] = [
     {
@@ -98,16 +98,29 @@ export class MapsComponent implements OnInit {
       google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000
     ).toFixed(2);
   }
+  calculateDistance2(kkk) {
+    let arr=[]
+    kkk.map(x=>{
+      arr.push(new google.maps.LatLng(
+      x.lat,
+      x.lng
+    ))
+    })
+    
+    return (
+      google.maps.geometry.spherical.computeLength(arr) / 1000
+    ).toFixed(2);
+  }
   async themdiemdon(){
     let dataa=await this.rest.PostDataToAPI<any[]>(this.diemdon,'DX0011/Update').toPromise()
-    console.log(dataa)
+    ////console.log(dataa)
   }
   point
     getCenter($event){
 this.point=$event
     }
     ready($event){
-      //console.log($event)
+      //////console.log($event)
     }
   async adddiemdon(){
     if(this.point==null){
@@ -125,18 +138,24 @@ this.point=$event
     if(!confirm('Bạn có chắc chắc chắn muốn xóa điểm đón "'+m.tenDiemDon+'" không?'))return false
  let dataa=await this.rest.PostDataToAPI<any[]>(m,'DX0011/Delete').toPromise()
  this.diemdon=this.diemdon.filter(c=> c !== m)
-    console.log(dataa)
+    ////console.log(dataa)
   }
-  calcu="0"
+  calcu='0'
   thaydoituyenduong($event){
     this.thistuyenduong=null
-  this.calcu="0"
-    console.log(this.tuyenduong.filter(c=>c.DX0010_ID===$event.target.value))
+  this.calcu='0'
+    ////console.log(this.tuyenduong.filter(c=>c.DX0010_ID===$event.target.value))
     this.tuyenduong.filter(c=>c.DX0010_ID===$event.target.value).map(x=>{
       this.thistuyenduong=x
       this.thistuyenduong.waypoints=(x.DX0010D==null||x.DX0010D.length<3)?null: x.DX0010D.slice(1,x.DX0010D.length-1).map(x=>{return {location: { lat: x.DX0011.lat, lng: x.DX0011.lng }}})
-      console.log(this.thistuyenduong)
-      this.calcu=this.calculateDistance(this.thistuyenduong.DX0010D[0].DX0011,this.thistuyenduong.DX0010D[this.thistuyenduong.DX0010D.length-1].DX0011)
+      ////console.log(this.thistuyenduong)
+      ///////////////////////////////
+      let tendiem=this.thistuyenduong.DX0010D.map(b=>{
+        return {lat:b.DX0011.lat,lng:b.DX0011.lng}
+        })
+        ////console.log(tendiem)
+        let kkk=this.calculateDistance2(tendiem)
+        ////console.log(kkk)
     })
   }
   edittuyenduong=false
@@ -146,10 +165,10 @@ this.point=$event
       return false
     }
     this.edittuyenduong=!this.edittuyenduong
-      console.log(this.thistuyenduong)
+      ////console.log(this.thistuyenduong)
     if(!this.edittuyenduong){
       let data=await this.rest.PostDataToAPI<any[]>(this.thistuyenduong.DX0010D,'DX0010D/add').toPromise()
-      console.log(data)
+      ////console.log(data)
     }
   }
   themmoidiemchotuyenduong(){
@@ -157,7 +176,7 @@ this.point=$event
   }
   async xoabodiemchotuyenduong(element){
     let data=await this.rest.PostDataToAPI<any>(element,'DX0010D/delete').toPromise()
-    console.log(data)
+    ////console.log(data)
     this.thistuyenduong.DX0010D.splice(this.thistuyenduong.DX0010D.indexOf(element),1)
   }
   chondiemdonchotuyenduong($event,element){
@@ -171,7 +190,7 @@ this.diemdon.filter(c=>c.DX0011_ID===$event.target.value).map(x=>{element.DX0011
   async xoatuyenduong(){
     if(!confirm('Bạn có chắc chắc chắn muốn xóa tuyến đường "'+this.thistuyenduong.tenTuyenXe+'" không?'))return false
     let data=await this.rest.PostDataToAPI<any[]>([this.thistuyenduong],"DX0010/delete").toPromise()
-    console.log(data)
+    ////console.log(data)
   data.filter(c=>c.code==="OK").map(x=>{
     this.tuyenduong=this.tuyenduong.filter(c=>!c===this.thistuyenduong)
     this.thistuyenduong=null
@@ -186,7 +205,18 @@ this.diemdon.filter(c=>c.DX0011_ID===$event.target.value).map(x=>{element.DX0011
     })
   }
   showthutu(element){{
-    console.log(element.thuTu)
+    ////console.log(element.thuTu)
+  }}
+  hhh($event){{
+    ////console.log($event)
+      let sum=0;
+    if($event.routes.length>0){
+      $event.routes[0].legs.map(x=>{
+        sum+=x.distance.value
+      })
+    }
+    ////console.log((sum/1000).toFixed(1))
+    this.calcu=(sum/1000).toFixed(1)
   }}
 }
 interface marker {

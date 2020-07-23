@@ -1,0 +1,11 @@
+.notshow{display: none;} 
+.table-secondary2{
+    background-color: rgb(255, 254, 239);
+    border:  solid 2px rgb(49, 49, 49);
+}
+.bott{
+    border-bottom:none !important ;
+}
+.topp{
+    border-top:none !important ;
+}

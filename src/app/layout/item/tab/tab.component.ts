@@ -15,7 +15,6 @@ export class TabComponent implements OnInit {
   ngOnInit(): void {
   }
   tabchange(i){
-    this.tab=i
     this.tabsend.emit(i)
   }
 }

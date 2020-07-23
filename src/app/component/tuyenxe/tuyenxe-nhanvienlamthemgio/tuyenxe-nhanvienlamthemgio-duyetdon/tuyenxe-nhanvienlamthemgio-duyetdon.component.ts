@@ -25,22 +25,32 @@ let data=await this.rest.PostDataToAPI<any[]>({trangThai:this.trangthai,ngaytao:
   x.DX0010=await this.rest.GetDataFromAPI<any>('DX0020/gettuyenbus/'+x.T002C).toPromise()
 })).then(f=>{
   this.listdata=data
-  console.log(this.listdata)
+  ////console.log(this.listdata)
 })
 
   }
 async them(){}
-async xoa(){}
+async xoa(){
+  if(!confirm(`Bạn chắc chắn muốn xóa `+this.listdata.filter(c=>c.check).length+` yêu cầu taxi không?`)){
+    return false
+  }
+  let data=await this.rest.PostDataToAPI<any[]>(this.listdata.filter(c=>c.check),'DX0001/delete').toPromise();
+  ////console.log(data)
+  this.toasts.warning("Đã xóa "+data.filter(c=>c.code==="DELETE").length+" yêu cầu.",null,{timeOut:10000,closeButton:true,positionClass:'toast-bottom-right'})
+  data.filter(c=>c.code==="DELETE").map(x=>{
+    this.listdata.filter(c=>c.DX0001_ID===x.data.DX0001_ID).map(i=>this.listdata.splice(this.listdata.indexOf(i),1))
+  })
+}
 async duyet(){
   this.listdata.filter(c=>c.check).map(x=>x.trangThai=2)
   let data=await this.rest.PostDataToAPI<any[]>(this.listdata.filter(c=>c.check),'DX0001/update').toPromise();
-  this.toasts.success("Đã duyệt cho "+data.filter(c=>c.code==="OK").length+" yêu cầu",null,{timeOut:5000,closeButton:true,})
+  this.toasts.success("Đã duyệt cho "+data.filter(c=>c.code==="OK").length+" yêu cầu",null,{timeOut:5000,closeButton:true,positionClass:'toast-bottom-right'})
   if(this.trangthai!='all')this.loc(data,1)
 }
 async huy(){
   this.listdata.filter(c=>c.check).map(x=>x.trangThai=1)
   let data=await this.rest.PostDataToAPI<any[]>(this.listdata.filter(c=>c.check),'DX0001/update').toPromise();
-  this.toasts.error("Đã hủy "+data.filter(c=>c.code==="OK").length+" yêu cầu")
+  this.toasts.error("Đã hủy "+data.filter(c=>c.code==="OK").length+" yêu cầu",null,{positionClass:'toast-bottom-right'})
   if(this.trangthai!='all')this.loc(data,2)
 }
 loc(data,num){

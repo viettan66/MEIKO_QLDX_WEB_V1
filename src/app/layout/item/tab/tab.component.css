@@ -12,3 +12,9 @@
 }
 .tabrow span:first-child {border-left: 1px solid rgb(78, 78, 78);margin-left: 30px;}
 .kkkk{border-bottom: 0 !important;border: 2px  solid rgb(80, 80, 80) ;}
+
+/* .sha{
+    -webkit-box-shadow: 2px -1px 6px 0px rgba(0,0,0,0.35);
+       -moz-box-shadow: 2px -1px 6px 0px rgba(0,0,0,0.35);
+            box-shadow: 2px -1px 6px 0px rgba(0,0,0,0.35);
+} */

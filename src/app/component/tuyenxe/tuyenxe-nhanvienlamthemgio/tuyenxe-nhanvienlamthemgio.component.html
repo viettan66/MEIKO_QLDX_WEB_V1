@@ -1,8 +1,21 @@
 <div class="row no-gutters h-100">
-    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab" [tab]="tab" (tab)="gettab($event)"></app-menu>
     <div class="col ">
+        <nav class="navbar navbar-expand-lg navbar-light  p-0 bg-secondary"   >
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                  <ng-container *ngFor="let item of listtab;let i=index">
+                    <li (click)="gettab(i)" class="nav-item {{tab==i?'active':''}}">
+                        <a class="nav-link  text-white " ><i class="{{item.classs}}"></i> {{item.label}}</a>
+                    </li>
+                  </ng-container>
+              </ul>
+            </div>
+          </nav>
         <app-tuyenxe-nhanvienlamthemgio-duyetdon *ngIf="tab==0"></app-tuyenxe-nhanvienlamthemgio-duyetdon>
-        <app-tuyenxe-nhanvienlamthemgio-sapxe *ngIf="tab==1"></app-tuyenxe-nhanvienlamthemgio-sapxe>
+        <app-tuyenxe-nhanvienlamthemgio-sapxe [pending]="pending" (pending)="getpending($event)" *ngIf="tab==1"></app-tuyenxe-nhanvienlamthemgio-sapxe>
         <app-tuyenxe-nhanvienlamthemgio-chuyenxe *ngIf="tab==2"></app-tuyenxe-nhanvienlamthemgio-chuyenxe>
     </div>
 </div>
+
+
+<app-loading [loading]="loading" caption="Đang đồng bộ dữ liệu, vui lòng chờ!"></app-loading>

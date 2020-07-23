@@ -1,16 +1,17 @@
 <app-header></app-header>
-<div class="row no-gutters h-100" style="margin-top: 40px;">
-    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab" [tab]="tab" (tab)="gettab($event)"></app-menu>
+<div class="row no-gutters " style="    height: 100vh;
+padding-top: 40px;"  >
+    <app-menu ul_bg="bg-secondary" div_bg="bg-secondary" li_active_bg="bg-secondary" [listmenu]="listtab"></app-menu>
     <div class="col">
         <!-- <app-maps  *ngIf="tab==0"></app-maps> -->
-<app-danhsachtuyenxe  *ngIf="tab==0"></app-danhsachtuyenxe>
-<app-tuyenxe-nhanviendangky  *ngIf="tab==1"></app-tuyenxe-nhanviendangky>
-<app-tuyenxe-nhanvienlamthemgio  *ngIf="tab==2"></app-tuyenxe-nhanvienlamthemgio>
-<app-tuyenxe-nhanviendicongtac  *ngIf="tab==3"></app-tuyenxe-nhanviendicongtac>
+<!-- <app-tuyenxe-nhanviendangky  *ngIf="tab==0"></app-tuyenxe-nhanviendangky> [tab]="tab" (tab)="gettab($event)"
+<app-tuyenxe-nhanvienlamthemgio  *ngIf="tab==1"></app-tuyenxe-nhanvienlamthemgio>
+<app-tuyenxe-nhanviendicongtac  *ngIf="tab==2"></app-tuyenxe-nhanviendicongtac>
+<app-danhsachtuyenxe  *ngIf="tab==3"></app-danhsachtuyenxe>
+<app-tuyenxe-quanlythanhtoan  *ngIf="tab==4"></app-tuyenxe-quanlythanhtoan> -->
+<ng-container *ngComponentOutlet="hhh"></ng-container>
+
     </div>
 </div>
 <!-- <app-tab classs="bg-light px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab> -->
 
-
-
-<app-loading [loading]="loading"></app-loading>

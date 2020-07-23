@@ -1,8 +1,13 @@
 <div class="col col-auto bg-dark gh no-gutters h-100 bg-dark" style="padding:10px 0 0 0;">
-    <ul class="list-group list-group-flush h-100 bg-dark no-gutters" id="dfdfdfdf">
-        <li class="list-group-item px-2  menuclick {{tab==i?'bg-light text-dark radiuss ':' bg-dark text-white '}}" (click)="tabchange(i)"
+    <ul class="list-group list-group-flush h-100 bg-dark no-gutters {{showmenu?'gggg':'ffff'}}" id="dfdfdfdf">
+        <span style="cursor: pointer;font-size: 22px;padding-left:12px ;" align="end"   class="w-100 list-group-item    bg-dark text-white " >
+            <i *ngIf="showmenu" class="fas fa-chevron-right " (click)="menu(false)"></i>
+            <i *ngIf="!showmenu" class="fas fa-chevron-left " (click)="menu(true)"></i>
+        </span>
+        
+        <li routerLink="{{element.tenRutGon}}"  class="list-group-item px-2  menuclick {{url==element.tenRutGon?' bg-light text-dark radiuss ':' bg-dark text-white '}}" 
             *ngFor="let element of listmenu;let i=index">
-                <i class="{{element.classs}}"></i><span>&nbsp;&nbsp;{{element.label}}</span>
+                <i class="{{element.maCode}}"></i><span>&nbsp;&nbsp;{{element.tenMenu}}</span>
            
         </li>
     </ul>

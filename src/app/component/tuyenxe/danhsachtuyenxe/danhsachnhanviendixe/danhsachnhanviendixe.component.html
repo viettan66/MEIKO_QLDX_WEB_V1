@@ -1,50 +1,169 @@
 <div class="card">
     <div class="card-header p-1">
         <div class="row no-gutters">
-            <div class="col">DANH SÁCH NHÂN VIÊN</div>
             <div class="col-auto">
-                <!-- <button class="btn btn-sm btn-primary ml-1"><i class="fa fa-plus"></i></button> -->
-                <button (click)="deletenhanviendixe()" class="btn btn-sm btn-primary ml-1"><i class="fa fa-trash"></i></button>
+                <span class="" style="position: relative;">
+                    <input type="text" class="btn btn-sm border border-secondary " placeholder="ID, Tên" [(ngModel)]="filtersearch"
+                        (change)="showdata()" (keyup)="checkemty()">
+                    <i style="position: absolute;top:5px;right: 10px;" class="fad fa-search"></i>
+                </span>
+                <button title="Thêm nhân viên đi xe thủ công" (click)="themnhanviendixe()" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-plus"></i></button>
+                <button *ngIf="editall==false" title="Sửa viên đi xe" (click)="editallnhanvien()" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-edit"></i></button>
+                <button *ngIf="editall==true" title="Lưu lại" (click)="saveallnhanvien()" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-save"></i></button>
+                <app-button-download [tableID]="'tttfjhgn'" [tableName]="'Danh sách nhân viên đi xe'" [bg]="'btn btn-sm btn-secondary ml-1'"></app-button-download>
+                <app-button-upload  [bg]="'btn btn-sm btn-secondary ml-1'" (data)="getdataexcel($event)"></app-button-upload>
+                <button title="Xóa nhân viên đi xe" (click)="deletenhanviendixe()" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-trash"></i></button>
                 <!-- <button class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button> -->
             </div>
+            <div class="col"></div>
+            <div class="col-auto">
+                <app-button-count [listdata]="listdatas" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+                <app-button-preview classs="btn btn-sm " [listdata]="listdatas" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listdatas" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
+                </div>
         </div>
     </div>
-    <div class="card-body p-1">
-        <table class="table table-bordered table-hover  table-striped table-sm" style="vertical-align: middle;font-size: 12px;">
+    <div class="card-body p-1" style="max-height: calc(100vh - 127px) !important;overflow: auto;">
+        <table class="table table-bordered table-hover  table-sm" style="vertical-align: middle;font-size: 12px;" id="tttfjhgn">
             <thead style="text-align: center;">
-                <tr>
-                    <td  style="width: 20px;"><app-item-checkall [listdata]="listdatas"></app-item-checkall></td>
-                    <td  style="width: 30px;">#</td>
-                    <td >Thời gian sử dụng</td>
-                    <td >Tuyến</td>
-                    <td >Điểm</td>
-                    <td >Mã ID</td>
-                    <td >Họ tên</td>
-                    <td >Chức vụ</td>
-                    <td >Cấp bậc</td>
-                    <td>Bộ phận</td>
-                    <td>địa chỉ mail</td>
-                    <td>Di động/Máy lẻ</td>
+                <tr class="table-info">
+                    <th  style="width: 20px;"><app-item-checkall [listdata]="listdatas"></app-item-checkall></th>
+                    <th  style="width: 30px;">#</th>
+                    <th >Thời gian sử dụng</th>
+                    <th >Tuyến</th>
+                    <th >Điểm</th>
+                    <th >Mã ID</th>
+                    <th >Họ tên</th>
+                    <th >Chức vụ</th>
+                    <th >Cấp bậc</th>
+                    <th>Bộ phận</th>
+                    <th>Địa chỉ mail</th>
+                    <th>Di động/Máy lẻ</th>
+                    <th>Tình trạng</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container *ngFor="let item of listdatas;let i=index">
-                    <tr (click)="$event.stopPropagation();item.check=!item.check">
-                        <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" ></td>
-                        <td>{{i+1}}</td>
-                        <td>{{item.thoiGianSuDung}}</td>
-                        <td>{{item.DX0010!=null?item.DX0010.tenTuyenXe:''}}</td>
-                        <td>{{item.DX0011!=null?item.DX0011.tenDiemDon:''}}</td>
-                        <td>{{item.manhansu}}</td>
-                        <td>{{item.hodem}}</td>
-                        <td></td>
-                        <td>{{item.capbac}}</td>
-                        <td>{{item.diachitamtru}}</td>
-                        <td>{{item.email}}</td>
-                        <td>{{item.dienthoai_didong}}</td>
-                    </tr>
+                    <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))&&filtersearch==''||item.manhansu.indexOf(filtersearch)>-1&&filtersearch!=''||item.hodem.toUpperCase().indexOf(filtersearch.toUpperCase())>-1&&filtersearch!=''">
+
+                        <tr *ngIf="editall==false" (click)="$event.stopPropagation();item.check=!item.check">
+                            <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" ></td>
+                            <td>{{i+1}}</td>
+                            <td>{{item.thoiGianSuDung}}</td>
+                            <td>{{item.tenTuyenXe}}</td>
+                            <td>{{item.tenDiemDon}}</td>
+                            <td>{{item.manhansu}}</td>
+                            <td>{{item.hodem}}</td>
+                            <td>{{item.chucvu}}</td>
+                            <td>{{item.capbac}}</td>
+                            <td>{{item.diachithuongtru}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.dienthoai_didong}}</td>
+                            <td>{{(item.trangThai==1||item.trangThai==null)?"":(item.trangThai==2?"Nghỉ sinh":"Khác")}}</td>
+                        </tr>
+                        <tr *ngIf="editall==true">
+                            <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" ></td>
+                            <td>{{i+1}}</td>
+                            <td><input type="text" [(ngModel)]="item.thoiGianSuDung" class="maxoftable"></td>
+                            <td>
+                                <select class="maxoftable" [(ngModel)]="item.DX0010_ID" (change)="filterdiemdons($event,item)">
+                                    <option *ngFor="let item of listtuyen" [value]="item.DX0010_ID">{{item.tenTuyenXe}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="maxoftable" [(ngModel)]="item.DX0011_ID">
+                                    <option value="">Chọn</option>
+                                    <option *ngFor="let item of item.alldiemdon" [value]="item.DX0011_ID">{{item.tenDiemDon}}</option>
+                                </select>
+                            </td>
+                            <td>{{item.manhansu}}</td>
+                            <td><input type="text" [(ngModel)]="item.hodem" class="maxoftable"></td>
+                            <td><input type="text" [(ngModel)]="item.chucvu" class="maxoftable"></td>
+                            <td><input type="text" [(ngModel)]="item.capbac" class="maxoftable"></td>
+                            <td><input type="text" [(ngModel)]="item.diachithuongtru" class="maxoftable"></td>
+                            <td><input type="text" [(ngModel)]="item.email" class="maxoftable"></td>
+                            <td><input type="text" [(ngModel)]="item.dienthoai_didong" class="maxoftable"></td>
+                            <td>
+                                <select class="maxoftable" [(ngModel)]="item.trangThai">
+                                    <option value="">Chọn</option>
+                                    <option value="1">Sử dụng</option>
+                                    <option value="2">Nghỉ sinh</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </ng-container>
             </tbody>
         </table>
     </div>
   </div>
+
+  <div id="my-modalthemnhanviendixe" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-900" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="my-modal-title">Thêm nhân viên đi xe</h5>
+                  <button class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body" style="max-height: 800px; overflow: scroll;overflow-x: hidden;">
+                 <table class="table table-sm">
+                    <tr>
+                        <td>Thời gian bắt đầu sử dụng</td>
+                        <td><app-button-datetimepicker [timepick]="false" [classs]="'form-control'" [format]="'Y-m-d'" [ids]="'sfhdkjjk'" (data)="getngaybatdausudung($event)"></app-button-datetimepicker></td>
+                    </tr>
+                    <tr>
+                        <td>Tuyến</td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="newcomer.T009C" (change)="filterdiemdon($event)">
+                                <option *ngFor="let item of listtuyen" [value]="item.DX0010_ID">{{item.tenTuyenXe}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Điểm</td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="newcomer.T008C">
+                                <option *ngFor="let item of listdiem" [value]="item.DX0011_ID">{{item.tenDiemDon}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mã ID</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T002C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Họ tên</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T001C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Chức vụ</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T028C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Cấp bậc</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T005C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Bộ phận</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T006C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T027C" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Di động</td>
+                        <td><input type="text" [(ngModel)]="newcomer.T004C" class="form-control"></td>
+                    </tr>
+                 </table>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-sm btn-secondary" (click)="savenguoidkemois()"><i class="fad fa-save"></i></button>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+<app-loading [loading]="loading" caption="Đang đồng bộ dữ liệu, vui lòng chờ!"></app-loading>

@@ -1,64 +1,83 @@
-<div class="row no-gutters p-2">
-    <div class="col">
-<div class="card">
+<div class="row no-gutters px-2">
+    <div class="col"> 
+        <app-tab classs="bg-light px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab>
+<div class="card mt-1" *ngIf="tab==0">
     <div class="card-header p-1">
         <div class="row no-gutters">
-            <div class="col">DANH SÁCH ĐƠN ĐĂNG KÝ</div>
             <div class="col-auto">
-                <select (change)="filter()" [(ngModel)]="filt" class="btn btn-sm btn-secondary ml-1">
+                <select (change)="filter()" [(ngModel)]="filt" class="btn btn-sm btn-secondary">
                     <option value="all">ALL</option>
-                    <option value="1" selected>Chưa duyệt</option>
-                    <option value="2">Đã duyệt</option>
-                    <option value="3">Đã xong</option>
+                    <option value="1" selected>Chưa sắp xe</option>
+                    <option value="2">Đã sắp xe</option>
                 </select>
-                <button (click)="pheduyetdondangky()" title="Phê duyệt cho nhân viên đi xe" class="btn btn-sm btn-primary ml-1"><i class="fad fa-award"></i></button>
-                <button (click)="xoadondangky()" title="Xóa bỏ yêu cầu" class="btn btn-sm btn-primary ml-1"><i class="fad fa-trash"></i></button>
-                <!-- <button class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button> -->
+                <!-- <button (click)="pheduyetdondangky()" title="Phê duyệt cho nhân viên đi xe" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-award"></i></button> -->
+                <!-- <button (click)="guimailthongbao()" title="Gửi mail thông báo" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-envelope"></i></button> -->
+                <button (click)="setupcuocxe(1)" title="Tạo cuốc xe đi" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-arrow-from-left"></i></button>
+                <button (click)="setupcuocxe(2)" title="Tạo cuốc xe về" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-arrow-from-right"></i></button>
+                <button (click)="setupcuocxe(3)" title="Tạo cuốc xe đi về kết hợp" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-recycle"></i></button>
+                <button (click)="xoadondangky()" title="Xóa bỏ yêu cầu" class="btn btn-sm btn-secondary ml-1"><i class="fad fa-trash"></i></button>
+                <!-- <button class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i></button> -->
+            </div>
+            <div class="col"></div>
+            <div class="col-auto">
+               <app-button-count [listdata]="listdon" [start]="start1" [step]="step1" (step)="step1=($event)"></app-button-count>
+               <app-button-preview classs="btn btn-sm" [listdata]="listdon" [start]="start1" [step]="step1" (start)="start1=($event)"></app-button-preview>
+               <app-button-next classs="btn btn-sm" [listdata]="listdon" [start]="start1" [step]="step1" (start)="start1=($event)"></app-button-next>
             </div>
         </div>
     </div>
-    <div class="card-body p-1">
-        <table class="table table-bordered table-hover  table-striped table-sm" style="vertical-align: middle;font-size: 12px;">
+    <div class="card-body p-1"   style="max-height: calc(100vh - 127px) !important;overflow: auto;">
+        <table class="table table-bordered table-hover  table-sm" style="vertical-align: middle;font-size: 12px;">
             <thead style="text-align: center;">
-                <tr>
-                    <td  style="width: 20px;"><app-item-checkall [listdata]="listdon"></app-item-checkall></td>
-                    <td  style="width: 30px;">#</td>
-                    <td >Ngày đặt</td>
-                    <td >Người đặt</td>
-                    <td >Bộ phận</td>
-                    <td >Di động/Ext</td>
-                    <td >Người sử dụng</td>
-                    <td >Bộ phận</td>
-                    <td >Di động/Ext</td>
-                    <td >Mục đích</td>
-                    <td >Lộ trình</td>
-                    <td>Thời gian sd</td>
-                    <td>Ngày</td>
-                    <td>Địa điểm lấy hàng</td>
-                    <td>Chứng từ</td>
-                    <td>Giấy mang hàng ra</td>
-                    <td>Người nhận</td>
-                    <td >Bộ phận</td>
-                    <td >Di động/Ext</td>
-                    <td style="width: 20px;"><i class="fad fa-question-circle"></i></td>
+                <tr class="table-info">
+                    <th  style="width: 20px;"><app-item-checkall [listdata]="listdon"></app-item-checkall></th>
+                    <th  style="width: 30px;">#</th>
+                    <th >Ngày đặt</th>
+                    <th >Người đặt</th>
+                    <th>ID</th>
+                    <th >Dept</th>
+                    <th >Mobile</th>
+                    <th >Người đi</th>
+                    <th>ID</th>
+                    <th >Dept</th>
+                    <th >Mobile</th>
+                    <th >Mục đích</th>
+                    <th >Lộ trình</th>
+                    <th>TG đi</th>
+                    <th>TG về</th>
+                    <th>Email</th>
+                    <th>LS người</th>
+                    <th>Điểm lấy hàng</th>
+                    <th>Chứng từ</th>
+                    <th>Giấy tờ</th>
+                    <th>Người nhận</th>
+                    <th >Bộ phận</th>
+                    <th >Mobile</th>
+                    <th style="width: 20px;">Đi</th>
+                    <th style="width: 20px;">Về</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container *ngFor="let item of listdon;let i=index">
+                    <ng-container *ngIf="((i>=start1*step1) && (i<(start1+1)*step1))">
                     <tr (click)="item.check=!item.check">
                         <td  style="width: 20px;"><input (click)="$event.stopPropagation()" type="checkbox" [(ngModel)]="item.check"></td>
                         <td  style="width: 20px;">{{i+1}}</td>
                         <td >{{item.ngayTao|date:'dd/MM/yyyy'}}</td>
                         <td >{{item.T001C}}</td>
                         <td >{{item.T002C}}</td>
-                        <td >{{item.T004C+' '+item.T003C}}</td>
+                        <td >{{item.T003C}}</td>
+                        <td >{{item.T004C}}</td>
                         <td >{{item.T005C}}</td>
                         <td >{{item.T006C}}</td>
-                        <td >{{item.T008C+' '+item.T007C}}</td>
-                        <td >{{item.T009C}}</td>
+                        <td >{{item.T007C}}</td>
+                        <td >{{item.T008C}}</td>
+                        <td >{{item.noiDungCongViec}}</td>
                         <td >{{item.T010C}}</td>
-                        <td >{{item.T011C}}</td>
-                        <td >{{item.T012C}}</td>
+                        <td >{{item.T011C|date:'dd/MM/yyyy H:mm'}}</td>
+                        <td >{{item.T012C|date:'dd/MM/yyyy H:mm'}}</td>
+                        <td>{{item.T019C}}</td>
+                        <td>{{item.T020C}}</td>
                         <td >{{item.T013C}}</td>
                         <td >{{item.T014C}}</td>
                         <td >{{item.T015C}}</td>
@@ -66,14 +85,269 @@
                         <td >{{item.T017C}}</td>
                         <td >{{item.T018C}}</td>
                         <td>
-                                <i *ngIf="item.trangThai==2" class="fad fa-check"></i>
+                                <i *ngIf="item.trangThai==2" class="fad fa-bus"></i>
                                 <i *ngIf="item.trangThai==1" class="fad fa-sync fa-spin"></i>
                         </td>
+                        <td>
+                                <i *ngIf="item.tinhtrang==2" class="fad fa-bus"></i>
+                                <i *ngIf="item.tinhtrang==1||item.tinhtrang==null" class="fad fa-sync fa-spin"></i>
+                        </td>
                     </tr>
+                </ng-container>
                 </ng-container>
             </tbody>
         </table>
     </div>
   </div>
+  <div class="card mt-1" *ngIf="tab==1">
+      <div class="card-header p-1">
+         <div class="row no-gutters">
+             <div class="col-auto">
+                <select  class="btn btn-sm btn-secondary mr-1" [(ngModel)]="filtertinhtrang" (change)="filtercuocxe()" >
+                    <option value="999" selected>Trạng thái</option>
+                    <option value="1">Chờ xác nhận</option>
+                    <option value="2">Chờ thanh toán</option>
+                    <option value="3">Hoàn thành</option>
+                    <option value="0">Lỗi</option>
+                </select>
+                <select  class="btn btn-sm btn-secondary mr-1" [(ngModel)]="filterloaicuoc" (change)="filtercuocxe()">
+                    <option value="999">Loại cuốc xe</option>
+                    <option value="1">Cuốc đi</option>
+                    <option value="2">Cuốc về</option>
+                    <option value="3">Cuốc kết hợp</option>
+                </select>
+                 <!-- <button class="btn btn-sm btn-secondary mr-1"><i class="fad fa-plus"></i></button> -->
+                 <button title="Xóa cuốc xe" (click)="xoacuocxe()" class="btn btn-sm btn-secondary mr-1"><i class="fad fa-trash"></i></button>
+             </div>
+             <div class="col"></div>
+             <div class="col-auto">
+                <app-button-count [listdata]="listcuocxe" [start]="start" [step]="step" (step)="step=($event)"></app-button-count>
+                <app-button-preview classs="btn btn-sm" [listdata]="listcuocxe" [start]="start" [step]="step" (start)="start=($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listcuocxe" [start]="start" [step]="step" (start)="start=($event)"></app-button-next>
+             </div>
+         </div>
+      </div>
+      <div class="card-body p-1"  style="max-height: calc(100vh - 127px) !important;overflow: auto;">
+        
+        
+          <table class="table table-sm  table-bordered" style="font-size: 12px;">
+              <thead style="text-align: center;">
+                  <tr class="table-info">
+                      <th style="width: 20px;"><app-item-checkall [listdata]="listcuocxe"></app-item-checkall></th>
+                      <th>#</th>
+                      <th>Giời đi</th>
+                      <Th>Giờ về</Th>
+                      <th>Lộ trình chạy</th>
+                      <th>Vé</th>
+                      <th>KM đầu</th>
+                      <th>KM cuối</th>
+                      <th>Tổng</th>
+                      <th>Người xác nhận</th>
+                      <th>ID</th>
+                      <th>Ghi chú</th>
+                      <th >Trạng thái</th>
+                      <th>Loại</th>
+                      <th style="width: 25px;"><i class="fad fa-eye"></i></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <ng-container *ngFor="let item of listcuocxe;let i=index">
+                      
+                    <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                    <tr class="{{item.show?'at bott':''}}">
+                        <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" (change)="$event.stopPropagation()"></td>
+                        <td>{{i+1}}</td>
+                        <td><app-button-datetimepicker  (data)="item.thoiGianDi=$event;update(item);show($event)" [format]="'Y-m-d H:i'" [ids]="item.DX0062_ID+'a'" [timepick]="true" [data]="item.thoiGianDi|date:'yyyy-MM-dd H:mm'" [classs]="'maxoftable'"></app-button-datetimepicker></td>
+                        <td><app-button-datetimepicker (data)="item.thoiGianVe=$event;update(item)" [format]="'Y-m-d H:i'" [ids]="item.DX0062_ID+'b'" [timepick]="true" [data]="item.thoiGianVe|date:'yyyy-MM-dd H:mm'" [classs]="'maxoftable'"></app-button-datetimepicker></td>
+                        <td><textarea name="loTrinh" rows="1" class="maxoftable" [(ngModel)]="item.loTrinh" (change)="update(item)"></textarea></td>
+                        <td><input  name="ve"   type="text"  class="maxoftable" [(ngModel)]="item.ve" (change)="update(item)"></td>
+                        <td><input  name="soKmDau"   type="number"  class="maxoftable" [(ngModel)]="item.soKmDau" (change)="update(item)"></td>
+                        <td><input name="soKmCuoi"  [min]="item.soKmDau"  type="number"  class="maxoftable" [(ngModel)]="item.soKmCuoi" (change)="update(item)"></td>
+                        <td><input name="tongKM" disabled  type="text"  class="maxoftable" [(ngModel)]="item.tongKM" (change)="update(item)"></td>
+                        <td><input name="tenNguoiXacNhan"   type="text"  class="maxoftable" [(ngModel)]="item.tenNguoiXacNhan" (change)="update(item)"></td>
+                        <td><input name="ID"   type="text"  class="maxoftable" [(ngModel)]="item.ID" (change)="update(item)"></td>
+                        <td><input name="ghiChu"   type="text"  class="maxoftable" [(ngModel)]="item.ghiChu" (change)="update(item)"></td>
+                        <td>
+                            <select class="maxoftable" [(ngModel)]="item.tienTrinh" (change)="update(item)" style="width: max-content;">
+                                <option value="1">Chờ xác nhận</option>
+                                <option value="2">Chờ thanh toán</option>
+                                <option value="3">Hoàn thành</option>
+                                <option value="0">Lỗi</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span *ngIf="item.type==1">Đi</span>
+                            <span *ngIf="item.type==2">Về</span>
+                            <span *ngIf="item.type==3">Kết.Hợp</span>
+                        </td>
+                        <td title="Chi tiết" class="btn-primary" style="vertical-align: middle;text-align: center;"><i style="cursor: pointer;" class="fad fa-eye" (click)="showdetailcuocxe(item)"></i></td>
+                    </tr>
+                    <tr *ngIf="item.show"  class="{{item.show?'at topp':''}}">
+                        <td colspan="15" style="padding: 0 !important;">
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td style="width: 20px;">#</td>
+                                    <td>Người tạo</td>
+                                    <td>ID</td>
+                                    <td>Bộ phận</td>
+                                    <td>SDT</td>
+                                    <td>Lộ trình</td>
+                                    <td>Giờ đi</td>
+                                    <td>Giờ về</td>
+                                    <td>Email</td>
+                                    <td>Người đi</td>
+                                    <td>Mục đích</td>
+                                    <td title="Thêm yêu cầu vào cuốc xe này" (click)="themdondangkyvaocuocxe(item)" class=" btn-primary" style="width: 24px;text-align: center;vertical-align: middle;"><i  style="cursor: pointer;" class="fa fa-plus"></i></td>
+                                </tr>
+                                <ng-container *ngFor="let item2 of item.DX0063;let ii=index">
+                                    <tr>
+                                        <td>{{ii+1}}</td>
+                                        <td>{{item2.DX0001.T001C}}</td>
+                                        <td>{{item2.DX0001.T002C}}</td>
+                                        <td>{{item2.DX0001.T003C}}</td>
+                                        <td>{{item2.DX0001.T004C}}</td>
+                                        <td>{{item2.DX0001.T010C}}</td>
+                                        <td>{{item2.DX0001.T011C|date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                                        <td>{{item2.DX0001.T012C|date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                                        <td>{{item2.DX0001.T019C}}</td>
+                                        <td>{{item2.DX0001.T020C}}</td>
+                                        <td>{{item2.DX0001.noiDungCongViec}}</td>
+                                        <td title="Xóa yêu cầu ra khỏi cuốc xe này" (click)="deletedondangkyrakhoicuocxe(item,item2)" class=" btn-primary" style="text-align: center;vertical-align: middle;"><i  style="cursor: pointer;" class="fad fa-trash"></i></td>
+                                    </tr>
+                                </ng-container>
+                            </table>
+                        </td>
+                    </tr>
+                  </ng-container>
+                  </ng-container>
+                  
+                  
+              </tbody>
+          </table>
+      </div>
+  </div>
 </div>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="my-modalsetupcuocxe" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-500" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="my-modal-title">Setup cuốc xe</h5>
+                  <button class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body" style="max-height: 800px; overflow: scroll;overflow-x: hidden;">
+                  <table class="table table-sm">
+                      <tr>
+                          <td>Thời gian đi</td>
+                          <td><app-button-datetimepicker  classs="form-control" [ids]="'hgfhdhfj'" [timepick]="true" [format]="'Y-m-d H:i:s'" (data)="gettimedi($event)" ></app-button-datetimepicker></td>
+                      </tr>
+                      <tr>
+                          <td>Thời gian về</td>
+                          <td><app-button-datetimepicker  classs="form-control" [ids]="'hgfhdhfjdd'"  [timepick]="true" [format]="'Y-m-d H:i:s'" (data)="gettimeve($event)" ></app-button-datetimepicker></td>
+                      </tr>
+                      <tr>
+                          <td>Lộ trình</td>
+                          <td>
+                              <textarea class="form-control" name="loTrinh" [(ngModel)]="DX0062.loTrinh"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Vé</td>
+                          <td><input [(ngModel)]="DX0062.ve" name="ve" type="text"  class="form-control"></td>
+                      </tr>
+                      <tr>
+                          <td>Ghi chú</td>
+                          <td><input [(ngModel)]="DX0062.ghiChu" name="ghichu" type="text"  class="form-control"></td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-sm btn-secondary" (click)="taocuocxe()"><i class="fad fa-check"></i></button>
+              </div>
+           </div>
+      </div>
+  </div>
+
+<div id="my-modalthemdondatxevaocuocxe" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-900" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Thêm đơn đăn ký vào cuốc xe</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
+                <table class="table table-bordered table-hover  table-sm" style="vertical-align: middle;font-size: 12px;">
+                    <thead style="text-align: center;">
+                        <tr class="table-info">
+                            <th  style="width: 20px;"><app-item-checkall [listdata]="listdon"></app-item-checkall></th>
+                            <th  style="width: 30px;">#</th>
+                            <th >Người đặt</th>
+                            <th>ID</th>
+                            <th >Bộ phận</th>
+                            <th >Di động/Ext</th>
+                            <th >Mục đích</th>
+                            <th >Lộ trình</th>
+                            <th>TG đi</th>
+                            <th>TG về</th>
+                            <th>Email</th>
+                            <th>LS người</th>
+                            <th style="width: 20px;">Đi</th>
+                            <th style="width: 20px;">Về</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of listdon;let i=index">
+                            <ng-container *ngIf="thistype==1&& item.trangThai==1||thistype==2&&item.tinhtrang==1||thistype==3&&item.trangThai==1&&item.tinhtrang==1">
+                            <tr (click)="item.check=!item.check">
+                                <td  style="width: 20px;"><input (click)="$event.stopPropagation()" type="checkbox" [(ngModel)]="item.check"></td>
+                                <td  style="width: 20px;">{{i+1}}</td>
+                                <td >{{item.T001C}}</td>
+                                <td >{{item.T002C}}</td>
+                                <td >{{item.T003C}}</td>
+                                <td >{{item.T004C}}</td>
+                                <td >{{item.noiDungCongViec}}</td>
+                                <td >{{item.T010C}}</td>
+                                <td >{{item.T011C|date:'dd/MM/yyyy H:mm'}}</td>
+                                <td >{{item.T012C|date:'dd/MM/yyyy H:mm'}}</td>
+                                <td>{{item.T019C}}</td>
+                                <td>{{item.T020C}}</td>
+                                <td>
+                                        <i *ngIf="item.trangThai==2" class="fad fa-bus"></i>
+                                        <i *ngIf="item.trangThai==1" class="fad fa-sync fa-spin"></i>
+                                </td>
+                                <td>
+                                        <i *ngIf="item.tinhtrang==2" class="fad fa-bus"></i>
+                                        <i *ngIf="item.tinhtrang==1" class="fad fa-sync fa-spin"></i>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary" (click)="savedondangkyvaocuocxe()"><i class="fad fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<app-loading [loading]="loading" caption="Đang đồng bộ dữ liệu, vui lòng chờ!"></app-loading>

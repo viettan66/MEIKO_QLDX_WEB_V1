@@ -1,0 +1,68 @@
+<div class="card">
+    <div class="card-header">
+        <button (click)="baivietmoi={};add()" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered"  style="font-size: 12px;">
+            <thead>
+                <th style="width: 20px;"><app-item-checkall [listdata]="listdata" ></app-item-checkall></th>
+            <th style="width: 20px;">#</th>
+            <th>Tiêu đề</th>
+            <th>Nội dung</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listdata;let i=index">
+                    <tr>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" (change)="$event.stopPropagation()">
+                        </td>
+                        <td>{{i+1}}</td>
+                        <td>{{item.s1}}</td>
+                        <td [innerHTML]="item.s3"></td>
+                        <td style="vertical-align: middle;text-align: center;width: 20px;">
+                            <button (click)="baivietmoi=item;add()" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></button>
+                        </td>
+                        <td style="vertical-align: middle;text-align: center;width: 20px;">
+                            <button (click)="baivietmoi=item;deletes(item.DX0150_ID)" class="btn btn-sm btn-secondary"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </ng-container>
+            
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Thêm bài viết mới</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <table class="table table-light">
+                   <tbody>
+                       <tr>
+                           <td>Tiêu đề</td>
+                           <td><input type="text" [(ngModel)]="baivietmoi.s1" class="form-control"></td>
+                       </tr>
+                       <tr>
+                           <td>Nội dung</td>
+                           <td><ck-editor name="editor1" [(ngModel)]="baivietmoi.s3" skin="moono-lisa" language="en" [fullPage]="true"  >
+                               </ck-editor>
+                            </td>
+                       </tr>
+                   </tbody>
+               </table>
+            </div>
+            <div class="modal-footer">
+                <button (click)="save()" class="btn btn-sm btn-primary"><i class="fad fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,14 +1,8 @@
 <div class="card m-1">
     <div class="card-header p-1">
       <div class="row no-gutters">
-          <div class="col">ĐƠN YÊU CẦU SỬ DỤNG TAXI</div>
           <div class="col-auto">
-              
-            <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
-            <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
-            <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
-
-                <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="ngaytao" (change)="show()">
+                <select class="btn btn-sm btn-secondary " [(ngModel)]="ngaytao" (change)="show()">
                     <option value="">ALL</option>
                     <option value="true">Quá thời gian sử dụng</option>
                     <option value="false">Chưa quá gian sử dụng</option>
@@ -17,6 +11,7 @@
                     <option value="all">ALL</option>
                     <option value="1">Chưa duyệt</option>
                     <option value="2">Đã duyệt</option>
+                    <option value="3">Đã Sắp xe</option>
                 </select>
                 <!-- <button class="btn btn-sm btn-secondary ml-1" (click)="them()"><i class="far fa-plus"></i></button> -->
                 <button class="btn btn-sm btn-secondary ml-1" (click)="duyet()"><i class="fad fa-check"></i></button>
@@ -24,9 +19,17 @@
                 <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh" tableName="Danh sách yêu cầu sử dụng xe taxi" hide="true"></app-button-download>
                 <button class="btn btn-sm btn-secondary ml-1" (click)="xoa()"><i class="fad fa-trash"></i></button>
           </div>
+          <div class="col"></div>
+          <div class="col-auto">
+              
+            <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+            <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+            <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next>
+
+          </div>
       </div>
     </div>
-    <div class="card-body p-1">
+    <div class="card-body p-1"  style="max-height: calc(100vh - 127px) !important;overflow: auto;">
         <table class="table table-sm table-hover table-bordered" style="font-size: 12px;" id="gghjkhggh">
             <thead style="text-align: center;">
                 <tr  class="table-info">

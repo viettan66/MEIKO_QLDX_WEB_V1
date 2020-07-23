@@ -29,9 +29,11 @@
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.tenTuyenXe" class="max"><span *ngIf="!item.edit">{{item.tenTuyenXe}}</span></td>
                         <td>
                             <ng-container *ngFor="let item2 of item.DX0010D">
-                                <button (click)="$event.stopPropagation();deletediemdon(item,item2)"  class="btn btn-sm btn-secondary p-0 px-1 mr-1" title="{{item2.DX0011.tenDiemDon}}">{{item2.DX0011.tenDiemDon}}</button>
+                                <button (click)="$event.stopPropagation()"  class="btn btn-sm btn-secondary p-0 px-1 mr-1" title="{{item2.DX0011.tenDiemDon}}">{{item2.DX0011.tenDiemDon}} {{item2.thuTu}}
+                                    <i (click)="$event.stopPropagation();deletediemdon(item,item2)"  *ngIf="item.edit" class="fa fa-times ml-1" aria-hidden="true"></i>
+                                </button>
                             </ng-container>
-                            <button (click)="$event.stopPropagation();themdiemdon(item)"  class="btn btn-sm btn-primary p-0 px-1 mr-1"><i class="fa fa-plus"></i></button>
+                            <button *ngIf="item.edit"  (click)="$event.stopPropagation();themdiemdon(item)"  class="btn btn-sm btn-primary p-0 px-1 mr-1"><i class="fa fa-plus"></i></button>
                         </td>
                         <td><input (click)="$event.stopPropagation()" *ngIf="item.edit" type="text" [(ngModel)]="item.ghiChu" class="max"><span *ngIf="!item.edit">{{item.ghiChu}}</span></td>
                         <td>
@@ -58,7 +60,7 @@
                 <h5 class="modal-title">Thêm điểm đón được đi phép di chuyển bằng taxi</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <table class="table table-sm table-hover" style="font-size: 14px;">
                     <thead>
                         <tr>
@@ -66,9 +68,6 @@
                             <th>Mã</th>
                             <th>Tên</th>
                             <th>Ghi chú</th>
-                            <th style="text-align: end;">
-                                <button (click)="luudiendon()" class="btn btn-sm btn-primary"><i class="fad fa-save"></i></button>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,13 +76,14 @@
                                 <th><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation();getlistchose(item)" ></th>
                                 <td>{{item.maDiemDon}}</td>
                                 <td>{{item.tenDiemDon}}</td>
-                                <td colspan="2">{{item.ghiChu}}</td>
+                                <td >{{item.ghiChu}}</td>
                             </tr>
                         </ng-container>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
+                <button (click)="luudiendon()" class="btn btn-sm btn-primary"><i class="fad fa-save"></i>&nbsp;Lưu lại</button>
             </div>
         </div>
     </div>

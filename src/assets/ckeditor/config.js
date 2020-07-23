@@ -4,7 +4,10 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+	// config.filebrowserBrowseUrl = 'https://localhost:44313/api/file/UploadFile/ckfinder/ckfinder.html';
+	// config.filebrowserImageBrowseUrl = 'https://localhost:44313/api/file/UploadFile/ckfinder/ckfinder.html?type=Images';
+	// config.filebrowserFlashBrowseUrl = 'https://localhost:44313/api/file/UploadFile/ckfinder/ckfinder.html?type=Flash';
+	// config.filebrowserUploadUrl = 'https://localhost:44313/api/file/UploadFile?command=QuickUpload&type=Files';
+	// config.filebrowserImageUploadUrl = 'https://localhost:44313/api/file/UploadFile?command=QuickUpload&type=Images';
+	// config.filebrowserFlashUploadUrl = 'https://localhost:44313/api/file/UploadFile?command=QuickUpload&type=Flash';
 };

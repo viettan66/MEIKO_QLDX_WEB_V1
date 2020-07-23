@@ -1,19 +1,19 @@
 
 <div class="row no-gutters " style="position: relative;">
   <div class="row no-gutters p-2" style="position: absolute;top:0;left: 0;z-index: 9999;background-color: rgba(187, 187, 187, 0);">
-    <button class="btn btn-sm btn-primary" (click)="adddiemdon()"><i class="fas fa-map-marker-alt"></i>&nbsp;Thêm điểm</button>
-    <button class="btn btn-sm btn-primary ml-1" (click)="themdiemdon()"><i class="fa fa-save"></i>&nbsp;Lưu điểm</button>
-    <select class="btn btn-sm btn-primary ml-1 {{edittuyenduong?'dis':''}}" (change)="thaydoituyenduong($event)">
+    <button class="shadow  btn btn-sm btn-primary " (click)="adddiemdon()"><i class="fas fa-map-marker-alt"></i>&nbsp;Thêm điểm</button>
+    <button class="shadow btn btn-sm btn-primary ml-1" (click)="themdiemdon()"><i class="fa fa-save"></i>&nbsp;Lưu điểm</button>
+    <select class="shadow btn btn-sm btn-primary ml-1 {{edittuyenduong?'dis':''}}" (change)="thaydoituyenduong($event)">
       <option value="" selected>Chọn tuyến đường</option>
       <option *ngFor="let element of tuyenduong;let i=index" value="{{element.DX0010_ID}}">{{element.tenTuyenXe}}</option>
     </select>
-    <button class="btn btn-sm btn-primary ml-1" (click)="sualotrinhtuyenduong()">
+    <button class="shadow btn btn-sm btn-primary ml-1" (click)="sualotrinhtuyenduong()">
       <i title="Sửa lộ trình" *ngIf="!edittuyenduong" class="fa fa-edit"></i>
       <i title="Lưu lộ trình"  *ngIf="edittuyenduong" class="fa fa-save"></i>
     </button>
-    <button title="Thêm lộ trình"  class="btn btn-sm btn-primary ml-1" (click)="themtuyenduong()"><i class="fal fa-plus"></i></button>
-    <button title="Xóa lộ trình"  class="btn btn-sm btn-primary ml-1" (click)="xoatuyenduong()"><i class="fal fa-trash"></i></button>
-    <span class="btn btn-sm btn-primary ml-1">{{calcu}} KM</span>
+    <button title="Thêm lộ trình"  class="shadow btn btn-sm btn-primary ml-1" (click)="themtuyenduong()"><i class="fal fa-plus"></i></button>
+    <button title="Xóa lộ trình"  class="shadow btn btn-sm btn-primary ml-1" (click)="xoatuyenduong()"><i class="fal fa-trash"></i></button>
+    <span class="shadow btn btn-sm btn-primary ml-1">{{calcu}} KM</span>
   </div>
   <div *ngIf="edittuyenduong" class="row no-gutters p-2" style="position: absolute;top:50px;left: 10px;z-index: 9999;background-color: rgba(255, 255, 255, 0.856);width: 250px;">
     <table class="table table-sm">
@@ -50,10 +50,10 @@
           <table class="table">
             <tbody>
               <tr>
-                <td>Điểm</td><td><input type="text" [(ngModel)]="m.tenDiemDon"></td>
+                <td>Tên điểm</td><td><input type="text" [(ngModel)]="m.tenDiemDon"></td>
               </tr>
               <tr>
-                <td>Tuyến</td><td></td>
+                <td>Mã điểm</td><td><input type="text" [(ngModel)]="m.maDiemDon"></td>
               </tr>
               <tr>
                 <td>Ghi chú</td><td><textarea [(ngModel)]="m.ghiChu"></textarea></td>
@@ -65,7 +65,7 @@
 
       </agm-marker>
       <ng-container *ngIf="thistuyenduong!=null && thistuyenduong.DX0010D!=null && thistuyenduong.DX0010D.length>1">
-        <agm-direction [renderOptions]="renderOptions" [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
+        <agm-direction (onResponse)="hhh($event)" [renderOptions]="renderOptions" [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
         [waypoints]="thistuyenduong.waypoints"
            >
           <button>dfkd</button>

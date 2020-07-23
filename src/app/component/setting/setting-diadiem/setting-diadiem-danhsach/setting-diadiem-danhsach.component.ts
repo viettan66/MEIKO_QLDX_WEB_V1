@@ -14,15 +14,17 @@ export class SettingDiadiemDanhsachComponent implements OnInit {
   async ngOnInit() {
     this.listdata=await this.rest.GetDataFromAPI<any[]>('DX0011/getall/all').toPromise()
     this.listdiadanh=await this.rest.GetDataFromAPI<any[]>('DX0014/getall').toPromise()
-    console.log(this.listdata)
+    ////console.log(this.listdata)
   }
   async themmoi() {
     let data=await this.rest.PostDataToAPI<any[]>([{}],'DX0011/update').toPromise();
-    console.log(data)
+    ////console.log(data)
     data.filter(c=>c.code==="OK").map(x=>{
       x.data.edit=true
       this.listdata.unshift(x.data)
       this.start=0
+      
+      this.rest.Toast_Success2("Đã thêm 1 điểm đón.")
     })
   }
   async xoatuyenduong() {
@@ -30,8 +32,9 @@ export class SettingDiadiemDanhsachComponent implements OnInit {
       return false
     }
     let data=await this.rest.PostDataToAPI<any[]>(this.listdata.filter(c=>c.check),'DX0011/Deletes').toPromise()
-    console.log(data)
-    data.filter(c=>c.code==="DELETE").map(x=>{
+    ////console.log(data)
+    let kk=0
+    data.filter(c=>c.code==="DELETE").map(x=>{kk++
       this.listdata.filter(c=>c.DX0011_ID===x.data.DX0011_ID).map(i=>this.listdata.splice(this.listdata.indexOf(i),1))
     })
   }
@@ -39,7 +42,11 @@ export class SettingDiadiemDanhsachComponent implements OnInit {
     item.edit=!item.edit
     if(!item.edit){
       let k=await this.rest.PostDataToAPI<any[]>([item],'DX0011/update').toPromise()
-      console.log(k)
+      ////console.log(k)
+      if(k[0].code==="UPDATE"){
+        
+      this.rest.Toast_Success2("Đã lưu.")
+      }
      // k.filter(c=>c.code="UPDATE").map
     }
   }

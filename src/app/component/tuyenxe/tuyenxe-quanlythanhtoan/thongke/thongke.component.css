@@ -1,0 +1,5 @@
+
+.jh p{
+    margin: 0 !important;
+    }
+    .inputborder{border: none; border-bottom: 2px dotted rgb(184, 184, 184) !important;outline: none;margin-left: 10px;font-weight: bold;padding-left: 40px;}

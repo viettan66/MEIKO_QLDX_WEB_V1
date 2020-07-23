@@ -4,7 +4,14 @@ body{height: 100%;}
 .active{font-weight: bolder;}
 .max{width: 100%;height: 100%;border: solid 1px rgb(211, 211, 211);}
 .modal-header{cursor: move;}
-
+.maxoftable{
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 1px;
+  outline: none;
+}
 [data-notify="progressbar"] {
 	margin-bottom: 0px;
 	position: absolute;
@@ -55,10 +62,10 @@ body{height: 100%;}
     padding: 0;
   }
   .modal-1360 {
-    width: 100%;
+    width: 95%;
     max-width: 1360px;
     height: auto;
-    padding: 20px;
+    padding: 0;
   }
   .modal-700 {
     width: 95%;
@@ -75,6 +82,12 @@ body{height: 100%;}
   .modal-400 {
     width: 100%;
     max-width: 400px;
+    height: auto;
+    padding: 0;
+  }
+  .modal-300 {
+    width: 100%;
+    max-width: 300px;
     height: auto;
     padding: 0;
   }

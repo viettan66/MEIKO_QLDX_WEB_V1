@@ -43,6 +43,8 @@ export class SettingKhungthoigianComponent implements OnInit {
     let data = await this.rest.PostDataToAPI<any[]>([this.newkhunggio], "DX0070/add").toPromise()
     data.filter(c => c.code === "OK").map(x => {
       this.listkhunggio.push(x.data)
+      
+      this.rest.Toast_Success2("Đã thêm 1 khung giờ")
     })
     $('#themkhunggiomodal').modal('hide')
   }
@@ -50,15 +52,22 @@ export class SettingKhungthoigianComponent implements OnInit {
     item.edit = !item.edit
     if (!item.edit) {
       let data = await this.rest.PostDataToAPI<any[]>([item], "DX0070/add").toPromise()
-      console.log(data)
+      ////console.log(data)
+      if(data[0].code==="UPDATE"){
+        
+      this.rest.Toast_Success2("Đã lưu.")
+      }
     }
   }
   async xoakhunggio() {
     if (!confirm('Bạn có thật sự muốn xóa ' + this.listkhunggio.filter(c => c.check).length + ' khung giờ?')) return false
     let data = await this.rest.PostDataToAPI<any[]>(this.listkhunggio.filter(c => c.check), "DX0070/delete").toPromise()
+    let ii=0
     data.filter(c => c.code === "OK").map(x => {
+      ii++
       this.listkhunggio.filter(c => c.DX0070_ID === x.data.DX0070_ID).map(v => this.listkhunggio.splice(this.listkhunggio.indexOf(v), 1))
     })
+    this.rest.Toast_Success2("Đã xóa "+ii+" xe bus.")
   }
   rediadanhmoi() {
     this.newkhunggio = { trangThai: true, tenKhungGio: null, timeMin: null, timeMax: null, ghiChu: null }

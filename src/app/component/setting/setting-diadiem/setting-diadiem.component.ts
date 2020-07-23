@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SettingDiadiemComponent implements OnInit {
 
   constructor() { }
-tab=1
+tab=0
 listtab=[
   {label:'Địa điểm',classs:'fad fa-map-marker-alt'},
   {label:'Tuyến xe',classs:'fad fa-route'},

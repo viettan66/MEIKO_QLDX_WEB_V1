@@ -32,7 +32,7 @@ export class SettingDiemtaxiComponent implements OnInit {
   }
   async luudiadanhmoi() {
     let data = await this.rest.PostDataToAPI<any[]>([this.newkhunggio], "DX0013/add").toPromise()
-    console.log(data)
+    ////console.log(data)
     data.filter(c => c.code === "OK").map(x => {
       this.listkhunggio.push(x.data)
     })
@@ -42,7 +42,7 @@ export class SettingDiemtaxiComponent implements OnInit {
     item.edit = !item.edit
     if (!item.edit) {
       let data = await this.rest.PostDataToAPI<any[]>([item], "DX0013/add").toPromise()
-      console.log(data)
+      ////console.log(data)
     }
   }
   async xoakhunggio() {
@@ -57,13 +57,13 @@ export class SettingDiemtaxiComponent implements OnInit {
   }
   thisDX0013
   themdiemdon(item) {
-    console.log(item)
+    ////console.log(item)
     this.thisDX0013=item
     $('#themdiemdonmodal').modal()
   }
   async luudiendon() {
     let arr=this.listdiemdon.filter(c=>c.check)
-    console.log(arr)
+    ////console.log(arr)
     for(const x of arr){
       x.DX0013_ID=this.thisDX0013.DX0013_ID
     }

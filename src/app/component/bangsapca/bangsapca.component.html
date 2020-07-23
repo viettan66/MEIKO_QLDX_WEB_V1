@@ -1,1 +1,368 @@
 <app-header></app-header>
+<div class="row no-gutters h-100" style="    height: 100vh;
+padding-top: 40px;">
+    <div class="col">
+        
+    <div class="card m-1">
+        <div class="card-header p-1">
+          <div class="row no-gutters">
+              <div class="col">DỮ LIỆU SẮP CA&emsp;&emsp;<b>{{'\t'+tenfile.toUpperCase()}}</b></div>
+              <div class="col-auto">
+                <!-- <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
+                <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
+                <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-next> -->
+                <!-- <app-button-upload bg="btn-sm ml-1 btn-secondary" [class] (data)="getdata($event)"></app-button-upload> -->
+                <!-- <button title="Tạo lệnh sắp xe" class="btn btn-sm ml-1 btn-secondary" (click)="batdausapxe()"><i class="fas fa-check-double"></i></button> -->
+                <button title="Upload tệp sắp ca" class="btn btn-sm ml-1 btn-secondary" (click)="getdata('f')"><i class="fad fa-upload"></i></button>
+                <button title="Cài đặt ca thống kê" class="btn btn-sm btn-secondary ml-1" (click)="showsetting()"><i class="fad fa-cog"></i></button>
+              </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+            
+        <app-tab classs="bg-light px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab>
+        <div class="row no-gutters m-1" *ngIf="tab==0"  style="max-height: calc(100vh - 142px) !important;overflow: auto;">
+            
+            <table class="table table-sm table-hover table-bordered" style="font-size: 12px;text-align: center;">
+                <thead>
+                    <tr  class="table-info">
+                        <td style=" width: 30px;">#</td>
+                        <td>Ca</td>
+                        <ng-container *ngFor="let ff of [].constructor(31);let i=index">
+                            <td class="{{thisindex==i?'lkdjfdj':''}}" style="cursor: pointer;" (click)="thisindex=i;showdetailngaycuathang(i+1)">{{i+1}}</td>
+                        </ng-container>
+                        
+                        <!-- <td style="width: 20px;"><i class="fad fa-list"></i> </td> -->
+                    </tr>
+                </thead>
+                <tbody>
+                   <ng-container *ngFor="let item of listdata;let i=index">
+                       <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{item.ca.maCa}}</td>
+                            <ng-container *ngFor="let ff of [].constructor(31);let i=index">
+                                <td (click)="thisindex=i;chitietngay(item.data==undefined?undefined:item.data[i],item)" class="btn-secondary ffff"  [style]="item.data==undefined?{}:{'background':color[item.data[i].color]}">{{item.data==undefined?'':item.data[i].count}}</td>
+                            </ng-container>
+                        <!-- <td ><i class="fad fa-eye"></i> </td> -->
+                        
+                       </tr>
+                   </ng-container>
+                   
+                </tbody>
+            </table>   
+        </div> 
+        <div class="row no-gutters m-1" *ngIf="tab==1"  style="max-height: calc(100vh - 142px) !important;overflow: auto;">
+            <table class="table table-sm table-bordered" style="font-size: 12px;text-align: center;">
+                <thead style="text-align: center;" class="table-info">
+                    <tr>
+                        <th rowspan="2" style="width: 20px;"> <app-item-checkall [listdata]="listdatadiemdon"></app-item-checkall> </th>
+                        <th rowspan="2" style="width: 20px;">#</th>
+                        <th rowspan="2" style="width: 70px;" >Điểm</th>
+                        <th style="border-color: #86cfda;" [colSpan]="listcalamviec.length">Ca</th>
+                    </tr>
+                    <tr>
+                        <ng-container *ngFor="let item of listcalamviec">
+                            <th *ngIf="item.DX0070_ID!=null">{{item.maCa}} <app-button-sort [listdata]="listdatadiemdon" [key]="item.maCa" (listdata)="getlistdatadiemdion($event)" ></app-button-sort> </th>
+                        </ng-container>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of listdatadiemdon;let i= index">
+                        <tr>
+                            <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" (change)="$event.stopPropagation()"></td>
+                            <td>{{i+1}}</td>
+                            <td>{{item.tendiemdon}}</td>
+                            <ng-container *ngFor="let item2 of item.data">
+                                <td class="btn-secondary" (click)="xemchitietdiemcuangay(item2)"  [style]="{'background':color[item2.color],'cursor':'pointer'}">{{item2.count}}</td>
+                            </ng-container>
+                            
+                        </tr>
+                    </ng-container>
+                    
+                </tbody>
+            </table>
+        </div>
+        </div>
+      </div>
+    </div>
+    
+</div>
+
+<div class="modal fade " id="settingmodal" role="dialog" >
+    <div class="modal-dialog   modal-900" >
+        <div class="modal-content " >
+            <div class="modal-header">
+                <h5 class="modal-title">DANH SÁCH CA THỐNG KÊ</h5>
+                <button type="button" class="close" (click)="closemodal()">&times;</button>
+            </div>
+            <div class="modal-body ">
+                <div class="row no-gutters ">
+                    <div class="col"></div>
+                    <div class="col-auto">
+                        <button class="btn btn-sm btn-secondary mr-1" (click)="themcathognke()"><i class="fad fa-plus"></i></button>
+                        <button class="btn btn-sm btn-secondary mr-1" (click)="xoacalamviec()"><i class="fad fa-trash"></i></button>
+                    </div>
+                </div>
+                <table class="table table-sm mt-1 table-bordered">
+                    <thead>
+                        <tr>
+                            <th><app-item-checkall [listdata]="listcalamviec"></app-item-checkall></th>
+                            <th>Tên ca</th>
+                            <th>Bắt đầu</th>
+                            <th>Kết thúc</th>
+                            <th>Ghi chú</th>
+                            <th>Khung giờ</th>
+                            <th style="text-align: end;width: 20px;">
+                               <i class="fa fa-list"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of listcalamviec;let i=index">
+                            <tr>
+                                <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation();item.check=!item.check" ></td>
+                                <td>
+                                    <input *ngIf="item.edit" class="maxoftable" type="text" [(ngModel)]="item.maCa">
+                                    <span  *ngIf="!item.edit" >{{item.maCa}}</span> 
+                                </td>
+                                <td>
+                                    <input *ngIf="item.edit" class="maxoftable" type="text" [(ngModel)]="item.batDau">
+                                    <span  *ngIf="!item.edit" >{{item.batDau}}</span> 
+                                </td>
+                                <td>
+                                    <input *ngIf="item.edit" class="maxoftable" type="text" [(ngModel)]="item.ketThuc">
+                                    <span  *ngIf="!item.edit" >{{item.ketThuc}}</span> 
+                                </td>
+                                <td >
+                                    <input *ngIf="item.edit" class="maxoftable" type="text" [(ngModel)]="item.ghiChu">
+                                    <span  *ngIf="!item.edit" >{{item.ghiChu}}</span> 
+                                </td>
+                                <td >
+                                    <select class="maxoftable" *ngIf="item.edit"  [(ngModel)]="item.DX0070_ID">
+                                        <option value="" >Bỏ trống</option>
+                                        <option *ngFor="let item2 of listkhunggio" [value]="item2.DX0070_ID">{{item2.tenKhungGio}}</option>
+                                    </select>
+                                    <span  *ngIf="!item.edit" >{{filkhunggio(item.DX0070_ID)}}</span> 
+                                </td>
+                                <td style="text-align: end;">
+                                    <i *ngIf="!item.edit" (click)="editca(item)" class="fad fa-edit"></i>
+                                    <i *ngIf="item.edit" (click)="editca(item)" class="fad fa-save"></i>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chitietngay" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true" style="z-index: 7366 !important;">
+    <div class="modal-dialog modal-900" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Danh sách nhân viên đi xe ngày <span style="color: red;">{{thisngay!=null?thisngay.ngay:''}}</span> ca <span style="color: red;">{{thisca!=null?thisca.ca.maCa:''}}</span></h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 700px;overflow: scroll;overflow-x: hidden;">
+                <div class="row no-gutters"></div>
+                <div class="row no-gutters">
+                    <table class="table table-sm" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên</th>
+                                <th>ID</th>
+                                <th>Bộ phận</th>
+                                <th>Điểm đón</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of listnhanviendilam;let i=index">
+                                <tr>
+                                   <td>{{i+1}}</td>
+                                    <td>{{item.hodem}}</td> 
+                                    <td>{{item.manhansu}}</td> 
+                                    <td>{{item.diachithuongtru}}</td> 
+                                    <td>{{item.tenDiemDon}}</td> 
+                                </tr>
+                                
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                Footer
+            </div>
+        </div>
+    </div>
+</div>
+<div id="chitietngaydiemdon" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true" style="z-index: 7366 !important;">
+    <div class="modal-dialog modal-900" role="document">
+        <div *ngIf="thisdiemcuangay!=null" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Danh sách nhân viên đi xe ngày <span style="color: red;">{{newdate}}</span> ca <span style="color: red;">{{thisdiemcuangay!=null?thisdiemcuangay.ca:''}}</span> điểm <span style="color: red;">{{thisdiemcuangay.diem}}</span></h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row no-gutters">
+                    table
+                </div>
+                <div class="row no-gutters">
+                    <table class="table table-sm" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên</th>
+                                <th>ID</th>
+                                <th>Bộ phận</th>
+                                <th>Điểm đón</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of thisdiemcuangay.list;let i=index">
+                                <tr>
+                                   <td>{{i+1}}</td>
+                                    <td>{{item.hodem}}</td> 
+                                    <td>{{item.manhansu}}</td> 
+                                    <td>{{item.diachithuongtru}}</td> 
+                                    <td>{{item.tenDiemDon}}</td> 
+                                </tr>
+                                
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                Footer
+            </div>
+        </div>
+    </div>
+</div>
+<div id="danhsachsapxe" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true" style="z-index: 7366 !important;">
+    <div class="modal-dialog modal-900" role="document">
+        <div  class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Danh sách nhân viên</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 600px;overflow-y: auto;">
+                <!-- <div class="row no-gutters mb-1">
+                    <div class="col"></div>
+                    <div class="col-auto">
+                        <button class="btn btn-sm">Lọc bỏ những người đã duyệt và sắp xe <i class="fad fa-trash"></i></button>
+                    </div>
+                </div> -->
+                <div class="row no-gutters">
+                    <table class="table table-sm table-hover" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 20px;"><app-item-checkall [listdata]="danhsachsapxetubangsapca" ></app-item-checkall></th>
+                                <th>#</th>
+                                <th>Tên</th>
+                                <th>ID</th>
+                                <th>Bộ phận</th>
+                                <th>Điểm đón</th>
+                                <th style="width: 100px;">
+                                    <select  class="btn btn-sm" [(ngModel)]="filternhanvien" style="font-weight: 500;">
+                                        <option value="999">Trạng thái</option>
+                                        <option value="0">Chưa tạo</option>
+                                        <option value="1">Chờ duyệt</option>
+                                        <option value="2">Đã duyệt</option>
+                                        <option value="3">Đã sắp xe</option>
+                                    </select>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of danhsachsapxetubangsapca;let i=index">
+                                <ng-container *ngIf="item.taodonhomnay==(filternhanvien-0)||filternhanvien==999">
+                                <tr  (click)="item.check=!item.check;$event.stopPropagation()">
+                                    <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" (change)="$event.stopPropagation()"></td>
+                                   <td>{{i+1}}</td>
+                                    <td>{{item.T001C}}</td> 
+                                    <td>{{item.T002C}}</td> 
+                                    <td>{{item.T006C}}</td> 
+                                    <td>{{item.tenDiemDon}}</td> 
+                                    <td style="text-align: center;">
+                                        <i class="fad {{item.taodonhomnay==1?'fa-sync fa-spin':item.taodonhomnay==2?'fa-check':item.taodonhomnay==3?'fa-taxi':''}} "></i>
+                                    </td>
+                                </tr>
+                                
+                            </ng-container>
+                        </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button title="Tạo lệnh sắp xe" class="btn btn-sm btn-secondary mr-1" (click)="dongysapxe()"><i class="fad fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="my-chitietngaycuathangmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-700" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Thống kê số lượng từng điểm ngày {{thisngayclick}}</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 700px;overflow: scroll;overflow-x: hidden;">
+                <table class="table table-sm table-bordered" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Điểm <app-button-sort [listdata]="listalldiemdondixengay" [key]="'diem'"></app-button-sort></th>
+                            <th>Số lượng <app-button-sort [listdata]="listalldiemdondixengay" [key]="'count'"></app-button-sort></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let item of listalldiemdondixengay;let i=index">
+                           <tr>
+                                <td>{{item.diem}}</td>
+                                <td>{{item.count}}</td>
+                            </tr> 
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                Footer
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="my-modalnhapthang" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-500" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my-modal-title">Nhập tháng công của file vừa upload</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row no-gutters">
+                    <div class="col">Tháng</div>
+                    <div class="col"><input type="text" [(ngModel)]="thangnhapthucong" class="form-control"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary"><i class="fad fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div> -->

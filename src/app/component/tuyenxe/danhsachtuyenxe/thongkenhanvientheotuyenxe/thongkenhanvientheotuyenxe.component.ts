@@ -13,15 +13,15 @@ tuyenduong:any[]
 count=[]
  async ngOnInit() {
   this.tuyenduong=await this.rest.GetDataFromAPI<any[]>('DX0010/getall/all').toPromise()
-  console.log(this.tuyenduong)
+  ////console.log(this.tuyenduong)
  this.tuyenduong.map(async x=>{
     if(this.count.length<x.DX0010D.length)this.count=x.DX0010D
   })
 
   }
  async showdulieu(item){
-    console.log(item)
+    ////console.log(item)
     let data=await this.rest.GetDataFromAPI<any[]>('DX0010/getall_tuyenduong/'+item.DX0011_ID).toPromise()
-    console.log(data)
+    ////console.log(data)
   }
 }

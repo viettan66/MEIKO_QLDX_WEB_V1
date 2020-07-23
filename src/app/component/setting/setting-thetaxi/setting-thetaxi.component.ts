@@ -12,8 +12,11 @@ export class SettingThetaxiComponent implements OnInit {
   constructor(public rest: RESTService) { }
 
   listkhunggio = []
+  nguoidixe = []
   async ngOnInit() {
     this.listkhunggio = await this.rest.GetDataFromAPI<any[]>('DX0050/Getall').toPromise()
+    this.nguoidixe = await this.rest.GetDataFromAPI<any[]>('DX0020/Getall').toPromise()
+    ////console.log(this.nguoidixe)
   }
   suakhunggioclick(item) {
     item.edit = item.edit == null ? true : (item.edit ? false : true)
@@ -36,7 +39,7 @@ export class SettingThetaxiComponent implements OnInit {
   }
   async luudiadanhmoi() {
     let data = await this.rest.PostDataToAPI<any[]>([this.newkhunggio], "DX0050/add").toPromise()
-    console.log(data)
+    ////console.log(data)
     data.filter(c => c.code === "OK").map(x => {
       this.listkhunggio.push(x.data)
     })
@@ -46,7 +49,8 @@ export class SettingThetaxiComponent implements OnInit {
     item.edit = !item.edit
     if (!item.edit) {
       let data = await this.rest.PostDataToAPI<any[]>([item], "DX0050/add").toPromise()
-      console.log(data)
+      ////console.log(data)
+      ////console.log(item)
     }
   }
   async xoakhunggio() {
@@ -67,5 +71,7 @@ export class SettingThetaxiComponent implements OnInit {
       soThe:null,
       trangThai:true, }
   }
-
+  sethoten(item,manhansu){
+    this.nguoidixe.filter(f=>f.manhansu===manhansu).map(f=>item.hoten=f.hodem)
+  }
 }

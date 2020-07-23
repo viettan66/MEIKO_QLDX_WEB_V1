@@ -1,3 +1,5 @@
 .bg-no{
-    background-color: rgb(206, 233, 241);
+    background-color: rgb(206, 233, 241) ;
 }
+.dropdown-menu .dropdown-item:hover{background-color: rgb(212, 212, 212);}
+.dropdown-item{cursor: pointer;}

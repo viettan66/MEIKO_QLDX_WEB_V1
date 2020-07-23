@@ -1,36 +1,29 @@
-<div class="card">
-    <h5 class="card-header">TUYẾN ĐƯỜNG</h5>
-    <div class="card-body">
-        <table class="table table-bordered table-hover  table-striped table-sm" style="vertical-align: middle;">
-            <thead style="text-align: center;">
-                <tr>
-                    <!-- <td rowspan="2" style="width: 20px;"><input type="checkbox" name="" id=""></td> -->
-                    <td rowspan="2" style="width: 30px;">STT</td>
-                    <td rowspan="2">Tuyến</td>
-                    <ng-container *ngFor="let item of count;let i=index">
-                        <td colspan="2">Điểm {{i+1}}</td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <ng-container *ngFor="let item of count;let i=index">
-                        <td >Tên</td>
-                        <td >Số lượng</td>
-                    </ng-container>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let item of tuyenduong;let i=index">
-                    <tr>
-                        <!-- <td ><input type="checkbox" name="" id=""></td> -->
-                        <td>{{i+1}}</td>
-                        <td><b>{{item.tenTuyenXe}}</b></td>
-                        <ng-container *ngFor="let diem of item.DX0010D;let j=index">
-                            <td (click)="showdulieu(diem.DX0011)">{{diem.DX0011.tenDiemDon}}</td>
-                            <td>{{diem.DX0011.DX0020!=null?diem.DX0011.DX0020.length:0}}</td>
-                        </ng-container>
-                    </tr>
+<table class="table table-bordered table-hover  table-striped table-sm m-1" style="vertical-align: middle;">
+    <thead style="text-align: center;">
+        <tr class="table-info">
+            <!-- <td rowspan="2" style="width: 20px;"><input type="checkbox" name="" id=""></td> -->
+            <th  style="width: 30px;">STT</th>
+            <th >Tuyến</th>
+            <ng-container *ngFor="let item of count;let i=index">
+                <th colspan="2">Điểm {{i+1}}</th>
+            </ng-container>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let item of tuyenduong;let i=index">
+            <tr>
+                <!-- <td ><input type="checkbox" name="" id=""></td> -->
+                <td>{{i+1}}</td>
+                <td><b>{{item.tenTuyenXe}}</b></td>
+                <ng-container *ngFor="let diem of item.DX0010D;let j=index">
+                    <td (click)="showdulieu(diem.DX0011)">{{diem.DX0011.tenDiemDon}}</td>
+                    <td>{{diem.DX0011.DX0020!=null?diem.DX0011.DX0020.length:0}}</td>
                 </ng-container>
-            </tbody>
-        </table>
-    </div>
-  </div>
+                <ng-container *ngFor="let diem of [].constructor(count.length-item.DX0010D.length);let j=index">
+                    <td ></td>
+                    <td></td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

@@ -1,27 +1,43 @@
 <div class="card m-1">
     <div class="card-header p-1">
         <div class="row no-gutters">
-            <div class="col">DANH SÁCH CHUYẾN XE TAXI</div>
             <div class="col-auto">
 
+                <span class=" ml-1" style="position: relative;">
+                    <input type="text" class="btn btn-sm border border-secondary " placeholder="Mã ID" [(ngModel)]="filtersearch"
+                        (change)="showdata()" (keyup)="checkemty()">
+                    <i style="position: absolute;top:5px;right: 10px;" class="fad fa-search"></i>
+                </span>
+                <!-- <app-button-datetimepicker [style]="{'width':'100px'}" [format]="'Y-m-d'" [timepick]="false" classs="btn btn-sm btn-secondary ml-1" ids="bsdjkjk" (data)="getstaratdate($event)"></app-button-datetimepicker> -->
+                <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="filtertrangthai" (change)="showdata()">
+                    <option value="null">Tiến trình</option>
+                    <option value="false">Đang xử lý</option>
+                    <option value="true">Hoàn thành</option>
+                </select>
+                <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="filtertienTrinh" (change)="showdata()">
+                    <option value="999">Trạng thái</option>
+                    <option value="0">Chưa Duyệt</option>
+                    <option value="1">Duyệt</option>
+                    <option value="9">Từ chối</option>
+                </select>
+                <button title="Duyệt chuyến xe" class="btn btn-sm btn-secondary ml-1" (click)="duyet()"><i class="fad fa-check"></i></button>
+                <button title="Từ chối chuyến xe" class="btn btn-sm btn-secondary ml-1" (click)="huy()"><i class="fad fa-times"></i></button>
+                <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh"
+                    tableName="Danh sách yêu cầu sử dụng xe taxi" hide="true"></app-button-download>
+                <button class="btn btn-sm btn-secondary ml-1" (click)="xoa()"><i class="fad fa-trash"></i></button>
+            </div>
+            <div class="col"></div>
+            <div class="col-auto">
                 <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)">
                 </app-button-count>
                 <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
                     (start)="getstart($event)"></app-button-preview>
                 <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
                     (start)="getstart($event)"></app-button-next>
-                    
-                <input type="date" placeholder="Từ ngày" class="btn btn-sm btn-secondary ml-1" [ngModel]="newdatw|date:'yyyy-MM-dd'" (ngModelChange)="startdate">
-                <input type="date" placeholder="Đến ngày" class="btn btn-sm btn-secondary ml-1"  [ngModel]="newdatw|date:'yyyy-MM-dd'" (ngModelChange)="enddate">
-                <button class="btn btn-sm btn-secondary ml-1" (click)="duyet()"><i class="fad fa-check"></i></button>
-                <button class="btn btn-sm btn-secondary ml-1" (click)="huy()"><i class="fad fa-times"></i></button>
-                <app-button-download bg="btn btn-sm btn-secondary text-white ml-1" tableID="gghjkhggh"
-                    tableName="Danh sách yêu cầu sử dụng xe taxi" hide="true"></app-button-download>
-                <button class="btn btn-sm btn-secondary ml-1" (click)="xoa()"><i class="fad fa-trash"></i></button>
             </div>
         </div>
     </div>
-    <div class="card-body p-1">
+    <div class="card-body p-1"   style="max-height: calc(100vh - 133px) !important;overflow: auto;">
         <div class="row no-gutters">
             <div class="col-xl p-1">
                 <table class="table table-sm  table-bordered" style="font-size: 12px;" id="gghjkhggh">
@@ -32,33 +48,102 @@
                             </td>
                             <td style=" width: 30px;">#</td>
                             <td>Lộ trình</td>
-                            <td>Khung giờ</td>
+                            <td>Time</td>
                             <td>Ngày</td>
-                            <td>Họ tên</td>
-                            <td>ID</td>
-                            <td>Bộ phân</td>
+                            <td>Người thanh toán</td>
+                            <td>Loại</td>
+                            <td>Số thẻ</td>
+                            <td>KM dự tính</td>
+                            <td>Số hóa đơn</td>
+                            <td>KM</td>
+                            <td>Thành tiền</td>
+                            <td>Ghi chú</td>
+                            <td>Trạng thái</td>
+                            <td>Tiến trình</td>
                         </tr>
                     </thead>
                     <tbody>
                         <ng-container *ngFor="let item of listdata;let i=index">
                             <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
-                                <tr (click)="item.check=!item.check">
-                                    <td style="width: 20px;vertical-align: middle;" [rowSpan]="item.DX0061.length"><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
-                                    <td style=" width: 30px;vertical-align: middle;text-align: center" [rowSpan]="item.DX0061.length">{{i+1}}</td>
-                                    <td style="vertical-align: middle"  [rowSpan]="item.DX0061.length"><b>{{item.ghiChu}}</b></td>
-                                    <td style="vertical-align: middle;text-align: center;"  [rowSpan]="item.DX0061.length">{{item.DX0070!=null?item.DX0070.tenKhungGio:''}}</td>
-                                    <td  style="vertical-align: middle;text-align: center;" [rowSpan]="item.DX0061.length">{{item.thoiGian|date:'dd/MM/yyyy'}}</td>
-                                    <td>{{item.DX0061[0].DX0001.T001C}}</td>
-                                    <td>{{item.DX0061[0].DX0001.T002C}}</td>
-                                    <td>{{item.DX0061[0].DX0001.T006C}}</td>
+                                <tr aria-disabled="true" (click)="hide(item);item.shows=!item.shows"
+                                    class="{{item.shows?'table-secondary2 bott':''}}" style="cursor: pointer;">
+                                    <td style="width: 20px;vertical-align: middle;"><input type="checkbox"
+                                            [(ngModel)]="item.check" (click)="$event.stopPropagation()"></td>
+                                    <td style=" width: 30px;vertical-align: middle;text-align: center">{{i+1}}</td>
+                                    <td style="vertical-align: middle">{{item.ghiChu}}</td>
+                                    <td style="vertical-align: middle;text-align: center;">
+                                        {{item.DX0070!=null?item.DX0070.tenKhungGio:''}} </td>
+                                    <td style="vertical-align: middle;text-align: center;">
+                                        {{item.thoiGian|date:'dd/MM/yyyy'}}</td>
+                                    <td (click)="$event.stopPropagation()">
+                                        <select [disabled]="item.tienTrinh==0||item.trangThai==true" class="maxoftable" [(ngModel)]="item.DX0001_ID" (change)="update(item)">
+                                            <ng-container *ngFor="let item2 of item.DX0061;let i=index">
+                                                <option *ngIf="item2.DX0001!=null" value="{{item2.DX0001.DX0001_ID}}">{{item2.DX0001.T001C}}
+                                                </option>
+                                            </ng-container>
+                                        </select>
+                                    </td>
+                                    <td (click)="$event.stopPropagation()">
+                                        <select [disabled]="item.DX0001_ID==null||item.trangThai==true" class="maxoftable"
+                                            [(ngModel)]="item.loaiThanhToan" (change)="searchmataxi(item);update(item)">
+                                            <option value="1">Tiền mặt</option>
+                                            <option value="2">Thẻ taxi</option>
+                                        </select>
+                                    </td>
+                                    <td (click)="$event.stopPropagation()"><input [attr.list]="item.DX0060_ID"
+                                            [disabled]="(item.loaiThanhToan==null||(item.loaiThanhToan)==0||(item.loaiThanhToan)==1)||item.trangThai==true"
+                                            type="text" class="maxoftable" [(ngModel)]="item.soThe"
+                                            (change)="update(item)">
+                                        <datalist [id]="item.DX0060_ID" >
+                                            <option [value]="mathe" *ngFor="let mathe of item.listmathe"></option>
+                                        </datalist>
+                                        </td>
+                                    <td (click)="$event.stopPropagation()">
+                                        <input [disabled]="(item.DX0001_ID==null)||item.trangThai==true" type="text" class="maxoftable" 
+                                        [(ngModel)]="item.soKmDuTinh" (change)="update(item)" 
+                                        >
+                                        </td>
+                                        <td (click)="$event.stopPropagation()">
+                                            <input [disabled]="(item.DX0001_ID==null)||item.trangThai==true" type="text" class="maxoftable" 
+                                            [(ngModel)]="item.soHD" (change)="update(item)" 
+                                            >
+                                            </td>
+                                    <td (click)="$event.stopPropagation()"><input [disabled]="(item.DX0001_ID==null)||item.trangThai==true"
+                                            type="text" class="maxoftable" [(ngModel)]="item.soKmThucTe"
+                                            (change)="update(item)" style="text-align: center;"></td>
+                                            
+                                    <td (click)="$event.stopPropagation()"><input [disabled]="(item.DX0001_ID==null)||item.trangThai==true" type="text"
+                                        class="maxoftable" [ngModel]="(item.thanhTienThucTe==null?'':(item.thanhTienThucTe+''))|currency:'':'đ ':'1.0-0'"
+                                        (ngModelChange)="item.thanhTienThucTe=$event.replace('đ','').split(',').join('')-0" (change)="update(item)"></td>
+                                        
+                                    <td (click)="$event.stopPropagation()"><input [disabled]="(item.DX0001_ID==null)||item.trangThai==true" type="text"
+                                        class="maxoftable" [(ngModel)]="item.note"
+                                         (change)="update(item)"></td>
+                                         <td title="{{item.tienTrinh==1?'Duyệt':item.tienTrinh==9?'Từ chối':item.tienTrinh==0?'Đang chờ':''}}" style="text-align: center;vertical-align: middle;" class="{{item.tienTrinh==1?'btn-success':item.tienTrinh==9?'btn-danger':item.tienTrinh==0?'btn-secondary':''}}">
+                                             <span  *ngIf="item.tienTrinh==0"><i class="fad fa-sync fa-spin"></i></span>
+                                             <span  *ngIf="item.tienTrinh==1"><i class="fad fa-check"></i></span>
+                                             <span  *ngIf="item.tienTrinh==9"><i class="fad fa-times"></i></span>
+                                         </td>
+                                         <td title="{{item.trangThai?'Đã hoàn thành':'Đang xử lý'}}" style="text-align: center;vertical-align: middle;" class="{{item.trangThai?'btn-success':'btn-secondary'}}">
+                                             <span *ngIf="item.trangThai==true"><i class="fad fa-check"></i></span>
+                                             <span *ngIf="item.trangThai==false"><i class="fad fa-sync fa-spin"></i></span>
+                                         </td>
                                 </tr>
-                                <ng-container *ngFor="let item2 of item.DX0061;let i=index">
-                                    <tr *ngIf="i!=0">
-                                        <td>{{item2.DX0001.T001C}}</td>
-                                        <td>{{item2.DX0001.T002C}}</td>
-                                        <td>{{item2.DX0001.T006C}}</td>
-                                    </tr>
-                                </ng-container>
+                                <tr *ngIf="item.shows" class="{{item.shows?'table-secondary2 topp':''}}">
+                                    <td colspan="15">
+                                        <table class="table table-sm">
+                                            <ng-container *ngFor="let item2 of item.DX0061;let i=index">
+                                                <tr *ngIf="item2.DX0001!=null">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{item2.DX0001.T001C}}</td>
+                                                    <td>{{item2.DX0001.T002C}}</td>
+                                                    <td>{{item2.DX0001.T006C}}</td>
+                                                </tr>
+
+                                            </ng-container>
+                                        </table>
+                                    </td>
+                                </tr>
                             </ng-container>
                         </ng-container>
                     </tbody>
@@ -90,3 +175,4 @@
         </div>
     </div>
 </div>
+<app-loading [loading]="loading" caption="Đang đồng bộ dữ liệu, vui lòng chờ!"></app-loading>

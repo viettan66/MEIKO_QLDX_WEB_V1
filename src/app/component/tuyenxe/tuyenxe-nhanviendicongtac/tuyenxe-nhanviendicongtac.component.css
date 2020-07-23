@@ -1,0 +1,10 @@
+.at{background-color: rgb(255, 255, 247);
+    border:  solid 2px rgb(49, 49, 49);}
+
+
+.bott{
+    border-bottom:none !important ;
+}
+.topp{
+    border-top:none !important ;
+}

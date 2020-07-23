@@ -54,7 +54,7 @@
 				<h5 class="modal-title">THÊM MỚI MỘT ĐỊA DANH</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<div class="modal-body ">
+			<div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <TABLE class="table table-sm table-bodered">
                     <tbody>
                         <tr>
@@ -82,16 +82,15 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <button class="btn btn-sm btn-primary float-right mr-1" title="Lưu lại" (click)="luudiadanhmoi()"><i class="fa fa-save"></i></button>
-                                <button class="btn btn-sm btn-primary float-right mr-1" title="Làm lại" (click)="rediadanhmoi()"><i class="fa fa-sync"></i></button>
-                            </td>
-                        </tr>
                     </tbody>
                 </TABLE>
                 
-			</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-primary float-right mr-1" title="Lưu lại" (click)="luudiadanhmoi()"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-primary float-right mr-1" title="Làm lại" (click)="rediadanhmoi()"><i class="fa fa-sync"></i></button>
+                            
+            </div>
 		</div>
 	</div>
 </div>

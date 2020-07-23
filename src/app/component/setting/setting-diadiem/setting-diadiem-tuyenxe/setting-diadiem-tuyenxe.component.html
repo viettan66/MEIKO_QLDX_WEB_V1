@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="card-body p-1">
-        <table class="table table-sm table-hover table-bordered">
+        <table class="table table-sm table-hover table-bordered" style="">
             <thead>
                 <tr  class="table-info">
                     <td style="width: 20px;"><app-item-checkall [listdata]="listdata"></app-item-checkall></td>
@@ -77,7 +77,7 @@
                 <h5 class="modal-title">Thêm điểm đón được đi phép di chuyển bằng taxi</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <table class="table table-sm table-hover" style="font-size: 14px;">
                     <thead>
                         <tr>
@@ -115,7 +115,7 @@
                 <h5 class="modal-title">Thêm xe bus chạy trên tuyến {{thistuyenxe.tenTuyenXe}}</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <table class="table table-sm table-hover" style="font-size: 14px;">
                     <thead>
                         <tr>

@@ -15,7 +15,7 @@ export class SettingDiadanhComponent implements OnInit {
   async ngOnInit(){
     this.listdiadanh=await this.rest.GetDataFromAPI<any[]>('DX0014/Getall2').toPromise()
     this.listdiemdon = await this.rest.GetDataFromAPI<any[]>('DX0011/Getall/all').toPromise()
-    console.log(this.listdiadanh)
+    ////console.log(this.listdiadanh)
   }
   newdiadanh:any={}
   themmoidiadanh(){
@@ -33,7 +33,7 @@ export class SettingDiadanhComponent implements OnInit {
     item.edit=!item.edit
     if(!item.edit){
       let data=await this.rest.PostDataToAPI<any[]>([item],"DX0014/add").toPromise()
-      console.log(data)
+      ////console.log(data)
     }
   }
   rediadanhmoi(){
@@ -49,13 +49,13 @@ export class SettingDiadanhComponent implements OnInit {
   
   thisDX0013
   themdiemdon(item) {
-    console.log(item)
+    ////console.log(item)
     this.thisDX0013=item
     $('#themdiemdonmodal').modal()
   }
   async luudiendon() {
     let arr=this.listdiemdon.filter(c=>c.check)
-    console.log(arr)
+    ////console.log(arr)
     for(const x of arr){
       x.DX0014_ID=this.thisDX0013.DX0014_ID
     }

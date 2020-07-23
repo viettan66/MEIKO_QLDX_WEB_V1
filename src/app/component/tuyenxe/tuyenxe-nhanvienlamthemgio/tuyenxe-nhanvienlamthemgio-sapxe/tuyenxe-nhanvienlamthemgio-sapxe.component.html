@@ -1,7 +1,7 @@
-<div class="row no-gutters m-1">
+<div class="row no-gutters m-1" id="mydiv" tabindex="0" style="outline: none;">
     <div class="col">
-        <app-tab classs="bg-light px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab>
-        <ng-container *ngFor="let item of listTUYENtaxi;let i=index">
+        <app-tab classs=" px-5" [listtab]="listtab" [tab]="tab" (tab)="gettab($event)"></app-tab>
+        <!-- <ng-container *ngFor="let item of listTUYENtaxi;let i=index">
             <div class="card m-1 p-0">
                 <div class="card-body p-0">
                     <div class="row no-gutters {{item.show?'bg-success text-white':'bg-no'}}">
@@ -17,7 +17,7 @@
                                         </div>
                                         <div class="row no-gutters" >
                                             <div  *ngIf="item.show"  class="col px-1" style="max-height: 400px;overflow: auto;">
-                                                <table class="table table-sm ggg" style="font-size: 12px;">
+                                                <table class="table table-sm ggg text-white" style="font-size: 12px;">
                                                     <ng-container *ngFor="let element of item2.count">
                                                        <tr>
                                                             <td>{{element.T002C}}</td>
@@ -35,19 +35,83 @@
 
                 </div>
             </div>
-        </ng-container>
+        </ng-container> -->
+       <div class="card mt-1">
+           <div class="card-header p-1">
+              <div class="row no-gutters">
+                  <div class="col-auto">
+                      <button title="Gộp xe" (click)="themchuyenxe()" class="btn btn-sm btn-secondary mr-1"><i class="fad fa-chart-network"></i></button>
+                      <button title="Gộp xe tự động" (click)="themchuyenxeauto()" class="btn btn-sm btn-secondary mr-1"><i class="fas fa-magic"></i></button>
+                      <button title="Sắp xe" (click)="sapxe()" class="btn btn-sm btn-secondary"><i class="fad fa-taxi"></i></button>
+                  </div>
+                  <div class="col"></div>
+              </div>
+           </div>
+           <div class="card-body p-0" style="min-height: 700px;max-height: 750px;overflow: auto;overflow-x: hidden;" id="ftyuio">
+            <table class="table-hover table-sm w-100" style="font-size: 12px;border-collapse: collapse;" id="jjj">
+                <thead class="table-info">
+                    <tr style="background-color: #86cfda;">
+                            <th >Xe</th>
+                             <!-- <th style="width: 20px;" (click)="checked()">
+                               <input type="checkbox"  (click)="$event.stopPropagation();" (change)="checkall($event)"> 
+                            </th>-->
+                            <th>Họ tên</th>
+                            <th>ID</th>
+                            <th>Bộ phận</th>
+                            <th>Chức vụ</th>
+                            <th>Cấp bậc</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Tên Tuyến</th>
+                            <th>Tên điểm</th>
+                            <th>Khung giờ</th>
+                            <!-- <th>Ngày tạo</th> -->
+                        </tr>
+                </thead>
+                    <ng-container *ngFor="let items of listdata;let xe=index">
+                <tbody class="jumbotron" style="background-color: rgb(255, 255, 255) !important;border: solid 2px rgb(202, 202, 202);"> 
+                        <ng-container *ngFor="let item of items;let rowindex=index">
+                            <tr (click)="checked(item)" style="cursor: pointer;">
+                                <td style="border:  solid 1px rgb(233, 233, 233);vertical-align: middle;text-align: center;" (click)="$event.stopPropagation();checkall(items)"  *ngIf="rowindex==0" [rowSpan]="items.length">{{xe+1}}</td>
+                               
+                                <td style="border:  solid 1px rgb(233, 233, 233);">
+                                    <i *ngIf="!item.check" class="fal fa-square" style="font-size: 16px;margin-right: 4px;margin-left: 4px"></i>
+                                    <i style="color: rgb(0, 117, 255);font-size: 16px;margin-right: 4px;margin-left: 4px" *ngIf="item.check" class="fas fa-check-square"></i>{{item.hodem}}
+                                </td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);text-align: center;" >{{item.manhansu}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);">{{item.diachithuongtru}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);">{{item.chucvu}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);text-align: center;">{{item.capbac}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);">{{item.dienthoai_didong}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);">{{item.email}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);">{{item.tenTuyenXe}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);text-align: center;" >{{item.tenDiemDon}}</td>
+                                <td style="border:  solid 1px rgb(233, 233, 233);text-align: center;" >{{item.tenKhungGio}}</td>
+                                <!-- <td>{{item.ngayTao!=null?(item.ngayTao|date:'dd/MM/yyyy'):''}}</td> -->
+                            </tr>
+                        </ng-container>
+                </tbody>
+                     </ng-container>
+            </table>
+           </div>
+       </div>
+        
+       
+        
+    </div>
+    <div>
+        
+
     </div>
 </div>
-<div class="{drag-drop-box}" cdkDrag>
-</div>
-  <div  class="modal fade " id="chitietdiemtaxi" role="dialog"  data-backdrop="static" data-keyboard="false"  >
+  <!-- <div  class="modal fade " id="chitietdiemtaxi" role="dialog"  data-backdrop="static" data-keyboard="false"  >
       <div class="modal-dialog   modal-1360" >
           <div *ngIf="thistuyentaxi!=null" class="modal-content " >
-              <div class="modal-header bg-light p-1">
+              <div class="modal-header bg-light ">
                   <h5 class="modal-title">Sắp xe tuyến taxi {{thistuyentaxi.tenTuyenXe}}</h5>
-                  <button class="btn btn-sm" data-dismiss="modal"><i class="fad fa-times"></i></button>
+                  <button class="close" data-dismiss="modal"><i class="fad fa-times"></i></button>
               </div>
-              <div class="modal-body ">
+              <div class="modal-body " style="max-height: 800px; overflow: scroll;overflow-x: hidden;">
                 <div class="row no-gutters">
                    <select class="btn btn-sm btn-secondary mr-1" [(ngModel)]="slot">
                        <option value="2">Xe 2 chỗ</option>
@@ -58,38 +122,43 @@
                        <option value="45">Xe 45 chỗ</option>
                    </select> 
                    <button (click)="sapxengay()" title="Sắp xe ngay" class="btn btn-sm btn-secondary mr-1"><i class="fad fa-check"></i></button>
-                   <button title="Gửi mail cho người đi xe" class="btn btn-sm btn-secondary mr-1"><i class="fad fa-envelope"></i></button>
                    <button title="Gửi thông báo cho người đi xe trên hệ thống" class="btn btn-sm btn-secondary mr-1"><i class="fad fa-bells" (click)="toast()"></i></button>
                    <app-button-download bg="btn btn-sm btn-secondary text-white mr-1" tableID="gghjkhgghc" tableName="Danh sách đi taxi tuyến{{thistuyentaxi.tenTuyenXe}}" hide="true"></app-button-download>
                    
                </div>
-               <div class="row no-gutters mt-2">
-                  <table class="table table-sm table-hover table-bordered" style="font-size: 12px;" id="gghjkhgghc" >
+               <div class="row no-gutters mt-2" id="noidungffff">
+                  <table class="jkj" style="font-size: 12px;border-collapse: collapse;width: 100%;" id="gghjkhgghc"  >
                       <thead style="text-align: center;">
                           <tr class="table-info">
-                              <!-- <th style="width: 20px;"><app-item-checkall [listdata]="thistuyentaxi.listdata"></app-item-checkall></th> -->
-                              <th style="width: 20px;">#</th>
-                              <th>Tên</th>
-                              <th>ID</th>
-                              <th>Cấp bậc</th>
-                              <th>Bộ phận</th>
-                              <th>Điểm</th>
-                              <th style="width: 90px;">Thông báo</th>
-                              <th >Xe</th>
+                              <th style="width: 20px;border: solid 1px rgb(189, 189, 189)">#</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Tên</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">ID</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Cấp bậc</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Email</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Di động</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Bộ phận</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)">Điểm</th>
+                              <th style="width: 90px;border: solid 1px rgb(189, 189, 189)">Thông báo</th>
+                              <th style="border: solid 1px rgb(189, 189, 189)" >Xe</th>
                           </tr>
                       </thead>
                       <tbody>
                           <ng-container *ngFor="let item2 of thistuyentaxi.listdata;let i=index">
                                 <tr style="cursor: pointer;" (click)="$event.stopPropagation();item2.check=!item2.check">
-                                    <!-- <td ><input type="checkbox" [(ngModel)]="item2.check"></td> -->
-                                    <td>{{i+1}}</td>
-                                    <td>{{item2.T001C}}</td>
-                                    <td>{{item2.T002C}}</td>
-                                    <td>{{item2.T005C}}</td>
-                                    <td>{{item2.T006C}}</td>
-                                    <td>{{item2.tenDiemDon}}</td>
-                                    <td style="text-align: center;"><i class="fad fa-check"></i></td>
-                                    <td style="text-align: center;vertical-align: middle;" *ngIf="((i+(slot-0))%(slot-0))==0" [attr.rowspan]="((i%(slot-0))+1)*(slot-0)">{{((i/(slot-0))+1)}}</td>
+                                    
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center;">{{i+1}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189)">{{item2.T001C}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center">{{item2.T002C}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center">{{item2.T005C}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189)">{{item2.email}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189)">{{item2.T004C}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189)">{{item2.T006C}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center">{{item2.tenDiemDon}}</td>
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center;">
+                                        <i *ngIf="item2.thongbao" class="fad fa-check"></i>
+                                        <i *ngIf="item2.thongbao==null||item2.thongbao==false" class="fad fa-sync fa-spin"></i>
+                                    </td>
+                                    <td style="border: solid 1px rgb(189, 189, 189);text-align: center;vertical-align: middle;" *ngIf="((i+(slot-0))%(slot-0))==0" [attr.rowspan]="((i%(slot-0))+1)*(slot-0)">{{((i/(slot-0))+1)}}</td>
                                 </tr>
                             </ng-container>
                       </tbody>
@@ -101,5 +170,38 @@
               </div>
           </div>
       </div>
+  </div> -->
+
+  <div class="dropdown-menu dropdown-menu-sm shadow" id="context-menu">
+    <a class="dropdown-item" (click)="themchuyenxe()" >Gộp xe</a>
+    <a class="dropdown-item">Hủy yêu cầu</a>
+    <a class="dropdown-item">...</a>
   </div>
 
+  <div id="my-modalinputghe" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-300" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="my-modal-title">Chọn số lượng ghế</h5>
+                  <button class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body p-0">
+                  <input type="number"  class="form-control" [(ngModel)]="soluongghe">
+                  
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-sm btn-secondary" (click)="gopxeauto()"><i class="fad fa-save"></i></button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <agm-map  [zoom]="12" [disableDefaultUI]="false" [zoomControl]="false" >
+      <!-- ngcon
+        <agm-direction *ngIf="thistlotring!=null&& thistlotring.redirection.length>1" (onResponse)="hhh($event,thistlotring)" [origin]="thistlotring.redirection[0]" [destination]="thistlotring.redirection[redirection.length-1]"
+        [waypoints]="thistlotring.redirection"
+           >
+        </agm-direction> -->
+</agm-map>

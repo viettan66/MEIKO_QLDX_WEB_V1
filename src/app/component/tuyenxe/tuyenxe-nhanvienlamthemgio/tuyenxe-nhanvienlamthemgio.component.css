@@ -5,3 +5,13 @@
 .ggg tr:first-child{
 border: none !important;
 }
+#navbarNav .nav-item{cursor: pointer;}
+#navbarNav .nav-item:not(:last-child){
+    border-right: solid 1px rgb(151, 151, 151);
+}
+#navbarNav .active{
+    background-color: rgb(255, 255, 255);
+}
+#navbarNav .active a{
+    color: rgb(54, 54, 54) !important;
+}

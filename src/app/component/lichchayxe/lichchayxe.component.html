@@ -1,11 +1,12 @@
 <app-header></app-header>
-<div class="row no-gutters h-100" style="margin-top: 40px;">
+<div class="row no-gutters h-100"  style="    height: 100vh;
+padding-top: 40px;">
     <div class="col">
-        
+        <app-tab [listtab]="[{label:'Tuyến đi',classs:''},{label:'Tuyến về',classs:''}]" [classs]="'bg-light'" [tab]="tab" (tab)="tab=$event; show()"></app-tab>
     <div class="card m-1">
         <div class="card-header p-1">
           <div class="row no-gutters">
-              <div class="col">ĐỊA ĐIỂM</div>
+              <div class="col">TUYẾN XE</div>
               <div class="col-auto">
                 <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="getstep($event)"></app-button-count>
                 <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step" (start)="getstart($event)"></app-button-preview>
@@ -14,7 +15,7 @@
               </div>
           </div>
         </div>
-        <div class="card-body p-1">
+        <div class="card-body p-1" style="max-height: calc(100vh - 127px) !important;overflow: auto;">
             <table class="table table-sm table-hover table-bordered" style="font-size: 12px;">
                 <thead>
                     <tr  class="table-info">
@@ -93,7 +94,7 @@
                                     </tr>
                                     <tr>
                                         <td>Tuyến</td>
-                                        <td></td>
+                                        <td>{{item.tenTuyenXe}}</td>
                                     </tr>
                                     <tr>
                                         <td>Giờ đón</td>
@@ -109,7 +110,7 @@
                 
                     </agm-marker>
                     <ng-container *ngIf="thistuyenduong!=null && thistuyenduong.DX0010D!=null && thistuyenduong.DX0010D.length>1&& !showdiem">
-                        <agm-direction [renderOptions]="renderOptions"  [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
+                        <agm-direction  (onResponse)="hhh($event)"  [renderOptions]="renderOptions"  [origin]="thistuyenduong.DX0010D[0].DX0011" [destination]="thistuyenduong.DX0010D[thistuyenduong.DX0010D.length-1].DX0011"
                         [waypoints]="thistuyenduong.waypoints"
                            >
                           <button>dfkd</button>

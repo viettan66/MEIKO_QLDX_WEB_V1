@@ -1,0 +1,28 @@
+<app-header></app-header>
+<div class="row no-gutters"
+  style="height: 100vh;padding-top: 60px;background-image: url('{{imagelink}}assets/image/BG3.jpg');position: relative;background-size: cover ;">
+  <div class="col w-100">
+    <div class="row no-gutters py-5">
+      <div class="col-md-3"></div>
+      <div class="col-md-6" align="center">
+
+        <h1>MEIKO ELECTRONICS</h1>
+        <h4>CHÀO MỪNG BẠN ĐẾN VỚI HỆ THỐNG QUẢN LÝ ĐẶT XE</h4>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row no-gutters p-2">
+      <ng-container *ngFor="let item of listbaiviet">
+        <div class="col-md-4 p-1">
+          <div class="card">
+            <div class="card-body" [innerHTML]="item.s3">
+
+
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

@@ -3,13 +3,14 @@ import { Injectable, Type } from '@angular/core';
 import * as Global from '../Service/global'
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import * as XLSX from 'xlsx'; 
+import { ToastrService } from 'ngx-toastr';
 declare var XDomainRequest
 
 @Injectable({
   providedIn: 'root'
 })
 export class RESTService {
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,public toast:ToastrService) { }
   public GetDataFromAPI<Type>( uri:string) {
     let headers = new HttpHeaders(); 
     headers.set('Content-Type', 'application/json');
@@ -42,7 +43,7 @@ export class RESTService {
     return this.http.put<Type>(Global.APIUrl+uri,post, {headers: headers});
   }
   ExportTOExcel(TABLE,namefile?,title?,hide?:boolean) {  
-    //////////console.log(hide)
+    //////////////console.log(hide)
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(TABLE,{display:hide?true:false});  
     const wb: XLSX.WorkBook = XLSX.utils.book_new();  
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');  
@@ -117,4 +118,115 @@ export class RESTService {
     return JSON.parse(localStorage.getItem(NameVariableLocalStore)) 
       
   } 
+   chunkArray(myArray, chunk_size){
+    var results = [];
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunk_size));
+    }
+    return results;
+}
+  Toast_Success(content?,title?,option?){
+    this.toast.success(content,title,option)
+  }
+  Toast_Error(content?,title?,option?){
+    this.toast.error(content,title,option)
+  }
+  Toast_Warning(content?,title?,option?){
+    this.toast.warning(content,title,option)
+  }
+  Toast_Info(content?,title?,option?){
+    this.toast.info(content,title,option)
+  }
+  Toast_Success2(content?,title?,timeout=5000,closebutton=true,positionClass='toast-bottom-right'){
+    this.toast.success(content,title,{timeOut:timeout,closeButton:closebutton,positionClass})
+  }
+  Toast_Error2(content?,title?,timeout=5000,closebutton=true,positionClass='toast-bottom-right'){
+    this.toast.error(content,title,{timeOut:timeout,closeButton:closebutton,positionClass})
+  }
+  Toast_Warning2(content?,title?,timeout=5000,closebutton=true,positionClass='toast-bottom-right'){
+    this.toast.warning(content,title,{timeOut:timeout,closeButton:closebutton,positionClass})
+  }
+  Toast_Info2(content?,title?,timeout=5000,closebutton=true,positionClass='toast-bottom-right'){
+    this.toast.info(content,title,{timeOut:timeout,closeButton:closebutton,positionClass})
+  }
+ mangso = ['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín'];
+ dochangchuc(so,daydu)
+{
+ var chuoi = "";
+ var chuc = Math.floor(so/10);
+ var donvi = so%10;
+ if (chuc>1) {
+  chuoi = " " + this.mangso[chuc] + " mươi";
+  if (donvi==1) {
+   chuoi += " mốt";
+  }
+ } else if (chuc==1) {
+  chuoi = " mười";
+  if (donvi==1) {
+   chuoi += " một";
+  }
+ } else if (daydu && donvi>0) {
+  chuoi = " lẻ";
+ }
+ if (donvi==5 && chuc>1) {
+  chuoi += " lăm";
+ } else if (donvi>1||(donvi==1&&chuc==0)) {
+  chuoi += " " + this.mangso[ donvi ];
+ }
+ return chuoi;
+}
+ docblock(so,daydu)
+{
+ var chuoi = "";
+ var tram = Math.floor(so/100);
+ so = so%100;
+ if (daydu || tram>0) {
+  chuoi = " " + this.mangso[tram] + " trăm";
+  chuoi += this.dochangchuc(so,true);
+ } else {
+  chuoi = this.dochangchuc(so,false);
+ }
+ return chuoi;
+}
+ dochangtrieu(so,daydu)
+{
+ var chuoi = "";
+ var trieu = Math.floor(so/1000000);
+ so = so%1000000;
+ if (trieu>0) {
+  chuoi = this.docblock(trieu,daydu) + " triệu";
+  daydu = true;
+ }
+ var nghin = Math.floor(so/1000);
+ so = so%1000;
+ if (nghin>0) {
+  chuoi += this.docblock(nghin,daydu) + " nghìn";
+  daydu = true;
+ }
+ if (so>0) {
+  chuoi += this.docblock(so,daydu);
+ }
+ return chuoi;
+}
+ docso(so)
+{
+        if (so==0) return this.mangso[0];
+ var chuoi = "", hauto = "";
+ do {
+  var ty = so%1000000000;
+  so = Math.floor(so/1000000000);
+  if (so>0) {
+   chuoi = this.dochangtrieu(ty,true) + hauto + chuoi;
+  } else {
+   chuoi = this.dochangtrieu(ty,false) + hauto + chuoi;
+  }
+  hauto = " tỷ";
+ } while (so>0);
+ return chuoi;
+}
+getmenu(menu_cha){
+  let json=JSON.parse(localStorage.getItem('MenuList')) 
+  let data=json.filter(f=>f.IDCha===menu_cha)
+  return data
+}
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit ,EventEmitter, Output, Input} from '@angular/core';
-import { RESTService } from 'src/app/Service/rest.service';
+import { RESTService } from 'src/app/Service/rest';
 
 @Component({
   selector: 'app-button-upload',

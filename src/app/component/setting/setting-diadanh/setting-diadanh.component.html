@@ -38,9 +38,11 @@
                         </td>
                         <td>
                             <ng-container *ngFor="let item2 of item.DX0011">
-                                <button (click)="$event.stopPropagation();deletediemdon(item,item2)" class="btn btn-secondary btn-sm p-0 px-1 mr-1">{{item2.tenDiemDon}}</button>
+                                <button (click)="$event.stopPropagation()" class="btn btn-secondary btn-sm p-0 px-1 mr-1">{{item2.tenDiemDon}}
+                                    <i (click)="$event.stopPropagation();deletediemdon(item,item2)"  *ngIf="item.edit" class="fa fa-times ml-1" aria-hidden="true"></i>
+                                </button>
                             </ng-container>
-                            <button  (click)="$event.stopPropagation();themdiemdon(item)"  class="btn btn-primary btn-sm p-0 px-1 mr-1"><i class="far fa-plus"></i></button>
+                            <button  *ngIf="item.edit" (click)="$event.stopPropagation();themdiemdon(item)"  class="btn btn-primary btn-sm p-0 px-1 mr-1"><i class="far fa-plus"></i></button>
                         </td>
                         <td><i style="cursor: pointer;" class="fad {{item.edit?'fa-save':'fa-edit'}}"  (click)="$event.stopPropagation();suadiadanh(item)"></i></td>
                     </tr>
@@ -57,7 +59,7 @@
 				<h5 class="modal-title">THÊM MỚI MỘT ĐỊA DANH</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<div class="modal-body ">
+			<div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <TABLE class="table table-sm table-bodered">
                     <tbody>
                         <tr>
@@ -99,7 +101,7 @@
                 <h5 class="modal-title">Thêm điểm đón được đi phép di chuyển bằng taxi</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body " style="max-height: 700px; overflow: scroll;overflow-x: hidden;">
                 <table class="table table-sm table-hover" style="font-size: 14px;">
                     <thead>
                         <tr>

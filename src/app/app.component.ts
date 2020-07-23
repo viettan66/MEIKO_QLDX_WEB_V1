@@ -12,8 +12,8 @@ export class AppComponent implements OnInit {
      
       $(document).on('mousedown',".modal-header", function(mousedownEvt) {
             var $draggable = $(this);
-            var x = mousedownEvt.pageX - $draggable.offset().left+20,
-                y = mousedownEvt.pageY - $draggable.offset().top+20;
+            var x = mousedownEvt.pageX - $draggable.offset().left,
+                y = mousedownEvt.pageY - $draggable.offset().top;
             $("body").on("mousemove.draggable", function(mousemoveEvt) {
                 $draggable.closest(".modal-dialog").offset({
                     "left": mousemoveEvt.pageX - x,

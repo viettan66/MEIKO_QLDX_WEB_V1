@@ -26,11 +26,14 @@
             "styles": [
               "src/assets/fontawesome-pro-5.13.0-web/css/all.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/assets/css/jquery.datetimepicker.min.css",
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
+              "src/assets/js/jquery.datetimepicker.full.js",
+              "src/assets/js/RX.js",
               "node_modules/bootstrap/dist/js/bootstrap.js"
             ]
           },

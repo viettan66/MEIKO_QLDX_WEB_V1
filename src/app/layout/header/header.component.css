@@ -1,0 +1,10 @@
+.navbar .active{background-color: rgb(250, 250, 250); color: rgb(53, 53, 53) !important;}
+.nav-item{
+    border-right: solid 1px rgb(109, 109, 109);
+}
+.nav-item:last-child{
+    border-right: none
+}
+#hdfjkdshkf *{
+    cursor: pointer;
+}

@@ -1,0 +1,228 @@
+
+    <div class="card m-1">
+        <div class="card-header p-1">
+            <div class="row no-gutters">
+                <div class="col-auto">
+                    <select class="btn btn-sm btn-secondary " [(ngModel)]="filtertrangthai" (change)="filter()">
+                        <option value="999">Trạng thái</option>
+                        <option value="1">Hoàn thành</option>
+                        <option value="2">Còn nợ</option>
+                    </select>
+                    <select class="btn btn-sm btn-secondary ml-1" [(ngModel)]="filterloai" (change)="filter()">
+                        <option value="999">Loại</option>
+                        <option value="1">Thanh toán</option>
+                        <option value="2">Truy thu</option>
+                    </select>
+                    <span class=" ml-1" style="position: relative;">
+                        <input type="text" class="btn btn-sm border border-secondary " placeholder="Mã ID" [(ngModel)]="filtersearch"
+                            (change)="filter()" (keyup)="checkemty()">
+                        <i style="position: absolute;top:5px;right: 10px;" class="fad fa-search"></i>
+                    </span>
+                </div>
+                <div class="col"></div>
+                <div class="col-auto">
+                    <app-button-count [listdata]="listdata" [start]="start" [step]="step" (step)="step=($event)">
+                    </app-button-count>
+                    <app-button-preview classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
+                        (start)="start=($event)"></app-button-preview>
+                    <app-button-next classs="btn btn-sm" [listdata]="listdata" [start]="start" [step]="step"
+                        (start)="start=($event)"></app-button-next>
+            </div>
+            </div>
+        </div>
+        <div class="card-body p-1"  style="max-height: calc(100vh - 133px) !important;overflow: auto;">
+           
+
+          <table class="table table-sm table-bordered" style="font-size: 12px;">
+              <thead class="table-info">
+                  <tr>
+                      <th style="width: 20px;"><app-item-checkall></app-item-checkall></th>
+                      <th style="width: 20px;">Số</th>
+                      <th>Họ tên</th>
+                      <th>Mã ID</th>
+                      <th>Bộ phận</th>
+                      <th>Cập bậc</th>
+                      <th>Chức vụ</th>
+                      <th>Mobile</th>
+                      <th>Email</th>
+                      <th>Ngày thanh toán</th>
+                      <th>Nội dung</th>
+                      <th>Tổng</th>
+                      <th>Đã TT</th>
+                      <th>Tiền phải trả</th>
+                      <th>Tiền phải Thu</th>
+                      <th style="width: 20px;"><i class="fa fa-list"></i></th>
+                  </tr>
+              </thead>
+              <tbody >
+                 <ng-container *ngFor="let item of listdata;let i = index">
+                    <ng-container *ngIf="((i>=start*step) && (i<(start+1)*step))">
+                    <tr>
+                        <td><input type="checkbox" [(ngModel)]="item.check" (click)="$event.stopPropagation()" (change)="$event.stopPropagation()"></td>
+                        <td>{{item.DX0064_ID}}</td>
+                        <td>{{item.hoTen}}</td>
+                        <td>{{item.ID}}</td>
+                        <td>{{item.boPhan}}</td>
+                        <td>{{item.capBac}}</td>
+                        <td>{{item.chucVu}}</td>
+                        <td>{{item.mobile}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.ngayThanhToan|date:'dd-mm-yyyy'}}</td>
+                        <td>{{item.noiDung}}</td>
+                        <td>{{item.tong|currency:'':'đ ':'1.0-0'}}</td>
+                        <td>{{item.thanhToan|currency:'':'đ ':'1.0-0'}}</td>
+                        <td>
+                            <span *ngIf="item.loai==1">{{(item.tong-item.thanhToan)|currency:'':'đ ':'1.0-0'}}</span> 
+                        </td>
+                        <td>
+                            <span *ngIf="item.loai==2">{{(item.tong-item.thanhToan)|currency:'':'đ ':'1.0-0'}}</span> 
+                        </td>
+                        <td>
+                            <button title="Sửa" *ngIf="item.trangThai==false" (click)=" showchitiet(item) " class="btn btn-sm btn-primary p-0 px-1"><i class="fad fa-edit"></i></button>
+                            <button title="Xem chi tiết" *ngIf="item.trangThai" (click)=" showchitiet(item) " class="btn btn-sm btn-primary p-0 px-1"><i class="fad fa-eye"></i></button>
+                        </td>
+                    </tr>
+                 </ng-container>
+                </ng-container>
+
+
+                 
+              </tbody>
+          </table>
+        </div>
+    </div>
+
+    <div id="mymodalthanhtoan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true"   data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog modal-900" role="document">
+            <div class="modal-content" *ngIf="thisthanhtoan!=null">
+                <div class="modal-header">
+                    <h5  class="modal-title" id="my-modal-title">Thanh toán chi phí cho nhân viên</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body jh">
+                    <div class="row no-gutters" >
+                        <div class="col-auto">
+                            <p>Đơn vị: MKVC</p>
+                            <p>Bộ phận: Hành Chính (GA)</p>
+                            <p>Số Phiếu: {{thisthanhtoan.DX0064_ID}}</p>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col-auto">
+                            <p>Mẫu số:001 - GA</p>
+                            <p>Ban hành theo QĐ số: 123/2020/QĐ-GA</p>
+                            <p>Ngày 14/4/2020</p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col" align="center"><h4>BIÊN LAI THANH TOÁN</h4><p>Ngày {{datenow}}</p></div>
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Họ tên người nhận:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.hoTen">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Mã ID:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.ID">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Bộ phận:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.boPhan">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Nội dung:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.noiDung">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Số tiền thanh toán:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="number" (keyup)="check(thisthanhtoan);doiso(thisthanhtoan)" min="0" [max]="thisthanhtoan.tong" class="col inputborder" [(ngModel)]="thisthanhtoan.thanhToan" >
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Viết bằng chữ:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.vietbangchu">
+                    </div>
+                    <div class="row no-gutters mt-2">
+                        <div class="col"  align="center">
+                            <p><b>Người nhận</b></p>
+                            <p>(Ký, ghi rõ họ tên)</p>
+                        </div>
+                        <div class="col" align="center">
+                            <p><b>Người thanh toán</b></p>
+                            <p>(Ký, ghi rõ họ tên)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [hidden]="thisthanhtoan.trangThai" (click)="thanhtoanthis()" class="btn btn-sm btn-primary"><i class="fas fa-hand-holding-usd"></i>&nbsp;Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mymodaltruythu" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true"   data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog modal-900" role="document">
+            <div class="modal-content" *ngIf="thisthanhtoan!=null">
+                <div class="modal-header">
+                    <h5  class="modal-title" id="my-modal-title">Truy thu chi phí sử dụng taxi sai mục đích</h5>
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body jh" >
+                    <div class="row no-gutters">
+                        <div class="col-auto">
+                            <p>Đơn vị: MKVC</p>
+                            <p>Bộ phận: Hành Chính (GA)</p>
+                            <p>Số Phiếu: {{thisthanhtoan.DX0064_ID}}</p>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col-auto">
+                            <p>Mẫu số:001 - GA</p>
+                            <p>Ban hành theo QĐ số: 123/2020/QĐ-GA</p>
+                            <p>Ngày 14/4/2020</p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col" align="center"><h4>BIÊN LAI THU TIỀN</h4><p>Ngày {{datenow}}</p></div>
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Họ tên người nhận:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.hoTen">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Mã ID:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.ID">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Bộ phận:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.boPhan">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Nội dung:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.noiDung">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Số tiền nộp:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="number" min="0"  max="{{thisthanhtoan.tong}}"  class="col inputborder" [(ngModel)]="thisthanhtoan.thanhToan"  (keyup)="check(thisthanhtoan);doiso(thisthanhtoan)">
+                    </div>
+                    <div class="row no-gutters">
+                       <span class="col-auto">- Viết bằng chữ:</span>
+                       <input [disabled]="thisthanhtoan.trangThai" type="text"  class="col inputborder" [(ngModel)]="thisthanhtoan.vietbangchu">
+                    </div>
+                    <div class="row no-gutters mt-2">
+                        <div class="col"  align="center">
+                            <p><b>Người nộp tiền</b></p>
+                            <p>(Ký, ghi rõ họ tên)</p>
+                        </div>
+                        <div class="col" align="center">
+                            <p><b>Người thanh toán</b></p>
+                            <p>(Ký, ghi rõ họ tên)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [hidden]="thisthanhtoan.trangThai" (click)="thanhtoanthis()" class="btn btn-sm btn-danger"><i class="fas fa-donate"></i>&nbsp;Truy thu</button>
+                </div>
+            </div>
+        </div>
+    </div>
